@@ -81,12 +81,12 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
         containerAnimation = Tween(begin: 0.0, end: MediaQuery.of(context).size.width - 40).animate(
                 CurvedAnimation(parent: animationController, curve: Curves.easeInOut));
 
-        return Scaffold
+        return SafeArea
         (
-            backgroundColor: Colors.white,
-            body: SafeArea
+            child: Scaffold
             (
-                child: Stack
+                backgroundColor: Colors.white,
+                body: Stack
                 (
                     children: <Widget>
                     [

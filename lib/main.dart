@@ -16,7 +16,7 @@ void main()
         (
             title: "Google Books Api",
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(fontFamily: "Avenir"),
+            theme: ThemeData(fontFamily: "Avenir", dividerColor: Color(0xffeaeaea)),
             home: StoreProvider<AppState>
             (
                 store: store,

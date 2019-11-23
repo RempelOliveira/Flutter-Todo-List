@@ -4,6 +4,7 @@ import "package:flutter_redux/flutter_redux.dart";
 
 import "package:google_books_api/states/AppState.dart";
 
+import "../Details.dart";
 import "../../Components/Book.dart";
 
 class MainScreen extends StatelessWidget
@@ -47,14 +48,28 @@ class MainScreen extends StatelessWidget
                                                         children: <Widget>
                                                         [
                                                             ...state.books.map((dynamic item) =>
-                                                                BookComponent
+                                                                GestureDetector
                                                                 (
-                                                                    title: item["title"],
-                                                                    subtitle: item["subtitle"],
-                                                                    thumbnail: item["thumbnail"],
-                                                                    reviews: item["reviews"],
-                                                                    rating: {
-                                                                        "stars": item["rating"]["stars"], "total": item["rating"]["total"], "users": item["rating"]["users"]
+                                                                    child: BookComponent
+                                                                    (
+                                                                        title: item["title"],
+                                                                        subtitle: item["subtitle"],
+                                                                        thumbnail: item["thumbnail"],
+                                                                        reviews: item["reviews"],
+                                                                        rating: {
+                                                                            "stars": item["rating"]["stars"], "total": item["rating"]["total"], "users": item["rating"]["users"]
+                                                                        }
+
+                                                                    ),
+
+                                                                    onTap: ()
+                                                                    {
+                                                                        Navigator.of(context).push
+                                                                        (
+                                                                            MaterialPageRoute(builder: (BuildContext context) => DetailsScreen(book: item))
+
+                                                                        );
+
                                                                     }
 
                                                                 )),

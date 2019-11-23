@@ -30,7 +30,7 @@ class HeaderScreen extends StatelessWidget
                     Container
                     (
                         color: Colors.white,
-                        padding: EdgeInsets.only(top: 24, bottom: 8),
+                        padding: EdgeInsets.only(top: 24, bottom: 0), //8
 
                         child: Row
                         (

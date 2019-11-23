@@ -29,6 +29,9 @@ dependencies:
   redux_thunk: ^0.2.1
   cached_network_image: ^2.0.0-rc
   decimal: ^0.3.5
+  font_awesome_flutter: ^8.4.0
+  esys_flutter_share: ^1.0.2
+  url_launcher: ^5.2.5
 
 dev_dependencies:
   flutter_test:
