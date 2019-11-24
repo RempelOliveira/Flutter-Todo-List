@@ -16,32 +16,27 @@ class HeaderScreen extends StatelessWidget
         (
             elevation: 0,
             backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
 
-            leading: IconButton
+            title: Text("Typography Essentials Revised and Updated", style: TextStyle
             (
-                icon: Icon(FontAwesomeIcons.chevronLeft, color: Color(0xff292929)),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+                color: Color(0xff292929),
+                fontSize: 14,
+                fontWeight: FontWeight.w500
 
-                onPressed: ()
-                {
-                    Navigator.pop(context);
-
-                }
-
-            ),
+            )),
 
             actions: <Widget>
             [
                 IconButton
                 (
-                    icon: Icon(favorite == "true" ? Icons.bookmark : Icons.bookmark_border, color: Color(favorite == "true" ? 0xff039be5 : 0xff929292)),
+                    icon: Icon(FontAwesomeIcons.times, color: Color(0xff292929)),
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
 
                     onPressed: ()
                     {
-
+                        Navigator.of(context).pop(null);
 
                     }
 

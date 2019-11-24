@@ -125,7 +125,7 @@ class BookComponent extends StatelessWidget
                                                 starCount: 5,
                                                 size: 18,
                                                 allowHalfRating: false,
-                                                color: Color(0xffFFAF2E),
+                                                color: Color(0xffffaf2e),
                                                 borderColor: Color(0xffffaf2e)
 
                                             ),

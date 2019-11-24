@@ -112,21 +112,16 @@ class CategoriesScreen extends StatelessWidget
             bottom: PreferredSize
             (
                 preferredSize: Size.fromHeight(19),
-                child: Visibility
+                child: Container
                 (
-                    visible: offset.toInt() >= 57,
-                    child: Container
+                    decoration: BoxDecoration
                     (
-                        decoration: BoxDecoration
+                        border: Border(bottom: BorderSide
                         (
-                            border: Border(bottom: BorderSide
-                            (
-                                width: 1,
-                                color: Color(0xffeaeaea)
+                            width: 1,
+                            color: offset >= 57 ? Color(0xffeaeaea) : Colors.transparent
 
-                            ))
-
-                        )
+                        ))
 
                     )
 
