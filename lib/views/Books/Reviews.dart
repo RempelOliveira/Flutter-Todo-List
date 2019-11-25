@@ -1,10 +1,19 @@
 import "package:flutter/material.dart";
+import "package:flutter_redux/flutter_redux.dart";
+
+import "package:google_books_api/actions/BooksActions.dart";
+import "package:google_books_api/states/AppState.dart";
 
 import "Reviews/Header.dart";
 import "Reviews/Main.dart";
 
 class ReviewsScreen extends StatefulWidget
 {
+    final String title;
+
+    ReviewsScreen({
+            @required this.title});
+
     @override
     _ReviewsScreenState createState() => _ReviewsScreenState();
 
@@ -33,6 +42,16 @@ class _ReviewsScreenState extends State<ReviewsScreen>
     }
 
     @override
+    void didChangeDependencies()
+    {
+        super.didChangeDependencies();
+
+        StoreProvider.of<AppState>(context)
+            .dispatch(getReviews);
+
+    }
+
+    @override
     Widget build(BuildContext context)
     {
         return SafeArea
@@ -47,7 +66,8 @@ class _ReviewsScreenState extends State<ReviewsScreen>
                     preferredSize: Size.fromHeight(AppBar().preferredSize.height),
                     child: HeaderScreen
                     (
-                        offset: offset
+                        offset: offset,
+                        title: widget.title
 
                     )
 

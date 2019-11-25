@@ -1,5 +1,10 @@
 import "package:flutter/material.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter_redux/flutter_redux.dart";
 import "package:smooth_star_rating/smooth_star_rating.dart";
+
+import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/actions/BooksActions.dart";
 
 class MainScreen extends StatelessWidget
 {
@@ -199,187 +204,169 @@ class MainScreen extends StatelessWidget
 
                     ),
 
-                    Container
+                    StoreConnector<AppState, AppState>
                     (
-                        margin: EdgeInsets.only(top: 6),
-                        child: Column
-                        (
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>
-                            [
-                                Text("Guilherme Rempel de Oliveira", style: TextStyle
-                                (
-                                    color: Color(0xff292929),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
+                        converter: (store) => store.state,
+                        builder: (BuildContext context, AppState state)
+                        {
+                            return Column
+                            (
+                                children: <Widget>
+                                [
+                                    state.isLoadingReviews
+                                        ?
+                                            Container
+                                            (
+                                                margin: EdgeInsets.only(top: 10, bottom: 2),
+                                                child: CircularProgressIndicator
+                                                (
+                                                    valueColor: AlwaysStoppedAnimation(Color(0xff039be5))
 
-                                )),
+                                                )
 
-                                SmoothStarRating
-                                (
-                                    rating: 5,
-                                    starCount: 5,
-                                    size: 18,
-                                    allowHalfRating: false,
-                                    color: Color(0xffffaf2e),
-                                    borderColor: Color(0xffffaf2e)
+                                            )
 
-                                ),
+                                        :
+                                            state.reviews.length > 0
+                                                ?
+                                                    Column
+                                                    (
+                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                        children: <Widget>
+                                                        [
+                                                            ...state.reviews.map((dynamic item) =>
+                                                                Container
+                                                                (
+                                                                    margin: EdgeInsets.only(top: 24),
+                                                                    child: Column
+                                                                    (
+                                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                                        children: <Widget>
+                                                                        [
+                                                                            Text(item["user"]["name"], style: TextStyle
+                                                                            (
+                                                                                color: Color(0xff292929),
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500
 
-                                Container
-                                (
-                                    margin: EdgeInsets.only(top: 12),
-                                    child: Text("This is the first review of this book. He is awesome, I recommend your reading.", style: TextStyle
-                                    (
-                                        color: Color(0xff929292),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w100
+                                                                            )),
 
-                                    ))
+                                                                            SmoothStarRating
+                                                                            (
+                                                                                rating: item["rating"].toDouble(),
+                                                                                starCount: 5,
+                                                                                size: 18,
+                                                                                allowHalfRating: false,
+                                                                                color: Color(0xffffaf2e),
+                                                                                borderColor: Color(0xffffaf2e)
 
-                                )
+                                                                            ),
 
-                            ]
+                                                                            Container
+                                                                            (
+                                                                                margin: EdgeInsets.only(top: 12),
+                                                                                child: Text(item["review"], style: TextStyle
+                                                                                (
+                                                                                    color: Color(0xff929292),
+                                                                                    fontSize: 10,
+                                                                                    fontWeight: FontWeight.w100
 
-                        )
+                                                                                ))
 
-                    ),
+                                                                            )
 
-                    Container
-                    (
-                        margin: EdgeInsets.only(top: 24),
-                        child: Column
-                        (
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>
-                            [
-                                Text("Guilherme Rempel de Oliveira", style: TextStyle
-                                (
-                                    color: Color(0xff292929),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
+                                                                        ]
 
-                                )),
+                                                                    )
 
-                                SmoothStarRating
-                                (
-                                    rating: 4.2,
-                                    starCount: 5,
-                                    size: 18,
-                                    allowHalfRating: false,
-                                    color: Color(0xffffaf2e),
-                                    borderColor: Color(0xffffaf2e)
+                                                                )),
 
-                                ),
+                                                            Visibility
+                                                            (
+                                                                visible: state.reviews.length < state.reviewsTotal,
+                                                                child: Container
+                                                                (
+                                                                    margin: EdgeInsets.only(top: 24),
+                                                                    child: RaisedButton
+                                                                    (
+                                                                        elevation: 0,
+                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                                                                        color: Color(0xff039be5),
+                                                                        disabledColor: Color(0xfff5f5f5),
+                                                                        padding: EdgeInsets.fromLTRB(22, 12, 20, 11),
 
-                                Container
-                                (
-                                    margin: EdgeInsets.only(top: 12),
-                                    child: Text("This is the first review of this book. He is awesome, I recommend your reading.", style: TextStyle
-                                    (
-                                        color: Color(0xff929292),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w100
+                                                                        child: state.isLoadingAllReviews
+                                                                            ?
+                                                                                Container
+                                                                                (
+                                                                                    width: 14,
+                                                                                    height: 14,
+                                                                                    child: CircularProgressIndicator
+                                                                                    (
+                                                                                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                                                                                        strokeWidth: 2
 
-                                    ))
+                                                                                    )
 
-                                )
+                                                                                )
 
-                            ]
+                                                                            :
+                                                                                Text("SHOW ALL COMMENTS", style: TextStyle
+                                                                                (
+                                                                                    color: Colors.white,
+                                                                                    fontSize: 12,
+                                                                                    fontWeight: FontWeight.w500
 
-                        )
+                                                                                )
 
-                    ),
+                                                                        ),
 
-                    Container
-                    (
-                        margin: EdgeInsets.only(top: 24),
-                        child: Column
-                        (
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>
-                            [
-                                Text("Guilherme Rempel de Oliveira", style: TextStyle
-                                (
-                                    color: Color(0xff292929),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
+                                                                        onPressed: ()
+                                                                        {
+                                                                            StoreProvider.of<AppState>(context)
+                                                                                .dispatch(getReviews);
 
-                                )),
+                                                                        }
 
-                                SmoothStarRating
-                                (
-                                    rating: 2,
-                                    starCount: 5,
-                                    size: 18,
-                                    allowHalfRating: false,
-                                    color: Color(0xffffaf2e),
-                                    borderColor: Color(0xffffaf2e)
+                                                                    )
 
-                                ),
+                                                                )
 
-                                Container
-                                (
-                                    margin: EdgeInsets.only(top: 12),
-                                    child: Text("This is the first review of this book. He is awesome, I recommend your reading.", style: TextStyle
-                                    (
-                                        color: Color(0xff929292),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w100
+                                                            )
 
-                                    ))
+                                                        ]
 
-                                )
+                                                    )
 
-                            ]
+                                                :
+                                                    Container
+                                                    (
+                                                        height: (MediaQuery.of(context).size.height / 2) - 3,
+                                                        alignment: Alignment.center,
+                                                        child: Column
+                                                        (
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>
+                                                            [
+                                                                Text("No records found!", style: TextStyle
+                                                                (
+                                                                    color: Colors.black,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w500
 
-                        )
+                                                                ))
 
-                    ),
+                                                            ]
 
-                    Container
-                    (
-                        margin: EdgeInsets.only(top: 24),
-                        child: Column
-                        (
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>
-                            [
-                                Text("Guilherme Rempel de Oliveira", style: TextStyle
-                                (
-                                    color: Color(0xff292929),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
+                                                        )
 
-                                )),
+                                                    )
 
-                                SmoothStarRating
-                                (
-                                    rating: 5,
-                                    starCount: 5,
-                                    size: 18,
-                                    allowHalfRating: false,
-                                    color: Color(0xffffaf2e),
-                                    borderColor: Color(0xffffaf2e)
+                                ]
 
-                                ),
+                            );
 
-                                Container
-                                (
-                                    margin: EdgeInsets.only(top: 12),
-                                    child: Text("This is the first review of this book. He is awesome, I recommend your reading.", style: TextStyle
-                                    (
-                                        color: Color(0xff929292),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w100
-
-                                    ))
-
-                                )
-
-                            ]
-
-                        )
+                        }
 
                     )
 

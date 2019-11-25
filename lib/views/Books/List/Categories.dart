@@ -86,7 +86,7 @@ class CategoriesScreen extends StatelessWidget
                                                     .dispatch(ChangeCategory(categories.elementAt(index).toLowerCase()));
 
                                                 StoreProvider.of<AppState>(context)
-                                                    .dispatch(ChangeSkip(0));
+                                                    .dispatch(ChangeSkipBooks(0));
 
                                                 StoreProvider.of<AppState>(context)
                                                     .dispatch(getBooks);

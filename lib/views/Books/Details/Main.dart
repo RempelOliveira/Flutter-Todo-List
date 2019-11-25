@@ -1,6 +1,10 @@
 import "package:flutter/material.dart";
+import "package:flutter_redux/flutter_redux.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:share/share.dart";
+
+import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/store/Store.dart";
 
 import "../../Components/Book.dart";
 import "../Reviews.dart";
@@ -72,7 +76,16 @@ class MainScreen extends StatelessWidget
                                     {
                                         Navigator.of(context).push
                                         (
-                                            MaterialPageRoute(builder: (BuildContext context) => ReviewsScreen())
+                                            MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                                            (
+                                                store: store,
+                                                child: ReviewsScreen
+                                                (
+                                                    title: book["title"]
+
+                                                )
+
+                                            ))
 
                                         );
 

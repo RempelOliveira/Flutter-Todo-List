@@ -5,7 +5,7 @@ import "package:flutter_redux/flutter_redux.dart";
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/store/Store.dart";
 
-import "package:google_books_api/views/Books/List.dart";
+import "views/Books/List.dart";
 
 void main()
 {

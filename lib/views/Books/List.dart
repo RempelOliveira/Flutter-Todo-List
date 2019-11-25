@@ -47,12 +47,12 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
             AppState state =
                 StoreProvider.of<AppState>(context).state;
 
-            if(state.books.length < state.booksTotal && !state.isLoadingMore)
+            if(state.books.length < state.booksTotal && !state.isLoadingMoreBooks)
             {
                 if(scrollController.offset >= scrollController.position.maxScrollExtent - 100)
                 {
                     StoreProvider.of<AppState>(context)
-                        .dispatch(ChangeIsLoadingMore(true));
+                        .dispatch(ChangeIsLoadingMoreBooks(true));
 
                     StoreProvider.of<AppState>(context)
                         .dispatch(getBooks);

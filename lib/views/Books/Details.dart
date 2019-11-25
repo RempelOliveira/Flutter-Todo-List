@@ -1,5 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter/foundation.dart";
+import "package:flutter_redux/flutter_redux.dart";
+
+import "package:google_books_api/actions/BooksActions.dart";
+import "package:google_books_api/states/AppState.dart";
 
 import "Details/Header.dart";
 import "Details/Main.dart";
@@ -35,6 +39,25 @@ class _DetailsScreenState extends State<DetailsScreen>
             });
 
         });
+
+    }
+
+    @override
+    void didChangeDependencies()
+    {
+        super.didChangeDependencies();
+
+        StoreProvider.of<AppState>(context)
+            .dispatch(ChangeAllReviews(false));
+
+        StoreProvider.of<AppState>(context)
+            .dispatch(ChangeIsLoadingAllReviews(false));
+
+        StoreProvider.of<AppState>(context)
+            .dispatch(UpdateBookReviews(0, []));
+
+        StoreProvider.of<AppState>(context)
+            .dispatch(UpdateBook(widget.book));
 
     }
 

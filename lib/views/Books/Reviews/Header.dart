@@ -4,10 +4,10 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 class HeaderScreen extends StatelessWidget
 {
     final double offset;
-    final String favorite;
+    final String title;
 
     HeaderScreen({
-        @required this.offset, this.favorite});
+        @required this.offset, @required this.title});
 
     @override
     Widget build(BuildContext context)
@@ -18,7 +18,7 @@ class HeaderScreen extends StatelessWidget
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
 
-            title: Text("Typography Essentials Revised and Updated", style: TextStyle
+            title: Text(title, style: TextStyle
             (
                 color: Color(0xff292929),
                 fontSize: 14,

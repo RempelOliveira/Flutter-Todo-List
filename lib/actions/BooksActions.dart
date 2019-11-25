@@ -7,10 +7,10 @@ import "package:google_books_api/states/AppState.dart";
 
 ThunkAction<AppState> getBooks = (Store<AppState> store)
 {
-    if(!store.state.isLoading && !store.state.isLoadingMore)
+    if(!store.state.isLoadingBooks && !store.state.isLoadingMoreBooks)
     {
         store.dispatch(
-            ChangeIsLoading(true)
+            ChangeIsLoadingBooks(true)
 
         );
 
@@ -19,7 +19,7 @@ ThunkAction<AppState> getBooks = (Store<AppState> store)
     Future.delayed(Duration(milliseconds: 500), () async
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.0.5:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skip}"));
+            Uri.encodeFull("http://192.168.0.5:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"));
 
         if(response.statusCode == 200)
         {
@@ -34,30 +34,115 @@ ThunkAction<AppState> getBooks = (Store<AppState> store)
             else
             {
                 store.dispatch(
-                    UpdateBooksList(data["total"], data["books"], store.state.skip == 0)
+                    UpdateBooksList(data["total"], data["books"], store.state.skipBooks == 0)
 
                 );
 
                 store.dispatch(
-                    ChangeSkip(store.state.skip + data["books"].length)
-
-                );
-
-            }
-
-            if(store.state.isLoading)
-            {
-                store.dispatch(
-                    ChangeIsLoading(false)
+                    ChangeSkipBooks(store.state.skipBooks + data["books"].length)
 
                 );
 
             }
 
-            if(store.state.isLoadingMore)
+            if(store.state.isLoadingBooks)
             {
                 store.dispatch(
-                    ChangeIsLoadingMore(false)
+                    ChangeIsLoadingBooks(false)
+
+                );
+
+            }
+
+            if(store.state.isLoadingMoreBooks)
+            {
+                store.dispatch(
+                    ChangeIsLoadingMoreBooks(false)
+
+                );
+
+            }
+
+        }
+        else
+        {
+            print("catch error: $response");
+
+        }
+
+    });
+
+};
+
+ThunkAction<AppState> getReviews = (Store<AppState> store)
+{
+    if(store.state.allReviews)
+    {
+        if(!store.state.isLoadingAllReviews)
+        {
+            store.dispatch(
+                ChangeIsLoadingAllReviews(true)
+
+            );
+
+        }
+
+    }
+    else
+    {
+        if(!store.state.isLoadingReviews)
+        {
+            store.dispatch(
+                ChangeIsLoadingReviews(true)
+
+            );
+
+        }
+
+    }
+
+    Future.delayed(Duration(milliseconds: 500), () async
+    {
+        http.Response response = await http.get(
+            Uri.encodeFull("http://192.168.0.5:3002/api/books/${store.state.book["id"]}/reviews?all=${store.state.allReviews}"));
+
+        if(response.statusCode == 200)
+        {
+            Map data =
+                jsonDecode(response.body);
+
+            if(data["error"] == "authorization")
+            {
+                print("authorization error");
+
+            }
+            else
+            {
+                store.dispatch(
+                    UpdateBookReviews(data["reviews"]["total"], data["reviews"]["items"])
+
+                );
+
+                store.dispatch(
+                    ChangeAllReviews(true)
+
+                );
+
+            }
+
+            if(store.state.isLoadingReviews)
+            {
+                store.dispatch(
+                    ChangeIsLoadingReviews(false)
+
+                );
+
+            }
+
+            if(store.state.isLoadingAllReviews)
+            {
+                store.dispatch(
+                    ChangeIsLoadingAllReviews(false)
 
                 );
 
@@ -88,24 +173,24 @@ class ChangeCategory
 
 }
 
-class ChangeIsLoading
+class ChangeIsLoadingBooks
 {
-    bool isLoading;
-    ChangeIsLoading(this.isLoading);
+    bool isLoadingBooks;
+    ChangeIsLoadingBooks(this.isLoadingBooks);
 
 }
 
-class ChangeIsLoadingMore
+class ChangeIsLoadingMoreBooks
 {
-    bool isLoadingMore;
-    ChangeIsLoadingMore(this.isLoadingMore);
+    bool isLoadingMoreBooks;
+    ChangeIsLoadingMoreBooks(this.isLoadingMoreBooks);
 
 }
 
-class ChangeSkip
+class ChangeSkipBooks
 {
-    int skip;
-    ChangeSkip(this.skip);
+    int skipBooks;
+    ChangeSkipBooks(this.skipBooks);
 
 }
 
@@ -117,5 +202,42 @@ class UpdateBooksList
     bool clean;
 
     UpdateBooksList(this.booksTotal, this.books, this.clean);
+
+}
+
+class UpdateBook
+{
+    Map<String, dynamic> book;
+    UpdateBook(this.book);
+
+}
+
+class ChangeAllReviews
+{
+    bool allReviews;
+    ChangeAllReviews(this.allReviews);
+
+}
+
+class ChangeIsLoadingReviews
+{
+    bool isLoadingReviews;
+    ChangeIsLoadingReviews(this.isLoadingReviews);
+
+}
+
+class ChangeIsLoadingAllReviews
+{
+    bool isLoadingAllReviews;
+    ChangeIsLoadingAllReviews(this.isLoadingAllReviews);
+
+}
+
+class UpdateBookReviews
+{
+    int reviewsTotal;
+    List<dynamic> reviews;
+
+    UpdateBookReviews(this.reviewsTotal, this.reviews);
 
 }

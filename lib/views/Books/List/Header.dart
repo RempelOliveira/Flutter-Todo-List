@@ -78,7 +78,7 @@ class HeaderScreen extends StatelessWidget
                                                                             .dispatch(ChangeTab("browse"));
 
                                                                         StoreProvider.of<AppState>(context)
-                                                                            .dispatch(ChangeSkip(0));
+                                                                            .dispatch(ChangeSkipBooks(0));
 
                                                                         StoreProvider.of<AppState>(context)
                                                                             .dispatch(getBooks);
@@ -111,7 +111,7 @@ class HeaderScreen extends StatelessWidget
                                                                             .dispatch(ChangeTab("favorites"));
 
                                                                         StoreProvider.of<AppState>(context)
-                                                                            .dispatch(ChangeSkip(0));
+                                                                            .dispatch(ChangeSkipBooks(0));
 
                                                                         StoreProvider.of<AppState>(context)
                                                                             .dispatch(getBooks);

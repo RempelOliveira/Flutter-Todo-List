@@ -23,31 +23,31 @@ AppState reducer(AppState state, dynamic action)
 
     }
 
-    if(action is ChangeIsLoading)
+    if(action is ChangeIsLoadingBooks)
     {
         return state.copyWith
         (
-            isLoading: action.isLoading
+            isLoadingBooks: action.isLoadingBooks
 
         );
 
     }
 
-    if(action is ChangeIsLoadingMore)
+    if(action is ChangeIsLoadingMoreBooks)
     {
         return state.copyWith
         (
-            isLoadingMore: action.isLoadingMore
+            isLoadingMoreBooks: action.isLoadingMoreBooks
 
         );
 
     }
 
-    if(action is ChangeSkip)
+    if(action is ChangeSkipBooks)
     {
         return state.copyWith
         (
-            skip: action.skip
+            skipBooks: action.skipBooks
 
         );
 
@@ -59,6 +59,57 @@ AppState reducer(AppState state, dynamic action)
         (
             books: state.books.length == 0 || action.clean ? action.books : state.books + action.books,
             booksTotal: action.booksTotal
+
+        );
+
+    }
+
+    if(action is UpdateBook)
+    {
+        return state.copyWith
+        (
+            book: action.book
+
+        );
+
+    }
+
+    if(action is ChangeAllReviews)
+    {
+        return state.copyWith
+        (
+            allReviews: action.allReviews
+
+        );
+
+    }
+
+    if(action is ChangeIsLoadingReviews)
+    {
+        return state.copyWith
+        (
+            isLoadingReviews: action.isLoadingReviews
+
+        );
+
+    }
+
+    if(action is ChangeIsLoadingAllReviews)
+    {
+        return state.copyWith
+        (
+            isLoadingAllReviews: action.isLoadingAllReviews
+
+        );
+
+    }
+
+    if(action is UpdateBookReviews)
+    {
+        return state.copyWith
+        (
+            reviews: action.reviews,
+            reviewsTotal: action.reviewsTotal
 
         );
 

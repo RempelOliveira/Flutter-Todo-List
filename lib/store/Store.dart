@@ -12,9 +12,15 @@ final store = Store<AppState>
         category: "typography",
         booksTotal: 0,
         books: [],
-        isLoading: true,
-        isLoadingMore: false,
-        skip: 0
+        skipBooks: 0,
+        isLoadingBooks: true,
+        isLoadingMoreBooks: false,
+        book: {},
+        reviewsTotal: 0,
+        reviews: [],
+        allReviews: false,
+        isLoadingReviews: true,
+        isLoadingAllReviews: true
 
     ),
 

@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_redux/flutter_redux.dart";
 
 import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/store/Store.dart";
 
 import "../Details.dart";
 import "../../Components/Book.dart";
@@ -26,7 +27,7 @@ class MainScreen extends StatelessWidget
                             (
                                 children: <Widget>
                                 [
-                                    state.isLoading
+                                    state.isLoadingBooks
                                         ?
                                             Container
                                             (
@@ -65,7 +66,12 @@ class MainScreen extends StatelessWidget
                                                                     {
                                                                         Navigator.of(context).push
                                                                         (
-                                                                            MaterialPageRoute(builder: (BuildContext context) => DetailsScreen(book: item))
+                                                                            MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                                                                            (
+                                                                                store: store,
+                                                                                child: DetailsScreen(book: item)
+
+                                                                            ))
 
                                                                         );
 
