@@ -1,25 +1,16 @@
 import "package:flutter/material.dart";
-import "package:flutter_redux/flutter_redux.dart";
 
-import "package:google_books_api/actions/BooksActions.dart";
-import "package:google_books_api/states/AppState.dart";
+import "SignIn/Header.dart";
+import "SignIn/Main.dart";
 
-import "Reviews/Header.dart";
-import "Reviews/Main.dart";
-
-class ReviewsScreen extends StatefulWidget
+class SignInScreen extends StatefulWidget
 {
-    final String title;
-
-    ReviewsScreen({
-            @required this.title});
-
     @override
-    _ReviewsScreenState createState() => _ReviewsScreenState();
+    _SignInScreenState createState() => _SignInScreenState();
 
 }
 
-class _ReviewsScreenState extends State<ReviewsScreen>
+class _SignInScreenState extends State<SignInScreen>
 {
     double offset = 0.0;
     ScrollController scrollController;
@@ -42,16 +33,6 @@ class _ReviewsScreenState extends State<ReviewsScreen>
     }
 
     @override
-    void didChangeDependencies()
-    {
-        super.didChangeDependencies();
-
-        StoreProvider.of<AppState>(context)
-            .dispatch(getReviews);
-
-    }
-
-    @override
     Widget build(BuildContext context)
     {
         return SafeArea
@@ -66,8 +47,7 @@ class _ReviewsScreenState extends State<ReviewsScreen>
                     preferredSize: Size.fromHeight(AppBar().preferredSize.height),
                     child: HeaderScreen
                     (
-                        offset: offset,
-                        title: widget.title
+                        offset: offset
 
                     )
 

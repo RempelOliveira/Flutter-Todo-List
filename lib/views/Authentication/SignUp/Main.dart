@@ -314,9 +314,9 @@ class _MainScreenState extends State<MainScreen>
 
                                                 suffixIcon: GestureDetector
                                                 (
-                                                    child: Icon(showPassword ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
+                                                    child: Icon(showPassword ? FontAwesomeIcons.solidEyeSlash: FontAwesomeIcons.solidEye,
 
-                                                        size: 16,
+                                                        size: 18,
                                                         color: Color(0xffdbdbdb),
 
                                                     ),

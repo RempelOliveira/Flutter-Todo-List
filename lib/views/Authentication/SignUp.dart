@@ -40,8 +40,6 @@ class _SignUpScreenState extends State<SignUpScreen>
 
         pageController.addListener(()
         {
-            print(pageController.page);
-
             setState(()
             {
                 page = pageController.page.toInt();

@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+import "../Authentication/SignIn.dart";
 import "../Authentication/SignUp.dart";
 
 class DrawerMenu extends StatelessWidget
@@ -262,7 +263,14 @@ class DrawerMenu extends StatelessWidget
                                                         )),
 
                                                         onPressed: ()
-                                                        {}
+                                                        {
+                                                            Navigator.of(context).push
+                                                            (
+                                                                MaterialPageRoute(builder: (BuildContext context) => SignInScreen())
+
+                                                            );
+
+                                                        }
 
                                                     ),
 
