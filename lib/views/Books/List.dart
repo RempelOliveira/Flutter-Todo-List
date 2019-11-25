@@ -8,8 +8,7 @@ import "List/Categories.dart";
 import "List/Header.dart";
 import "List/Main.dart";
 
-import "../Components/Drawer/DrawerMenu.dart";
-import "../Components/Drawer/DrawerIcon.dart";
+import "../Components/DrawerMenu.dart";
 
 class ListScreen extends StatefulWidget
 {
@@ -125,17 +124,11 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
 
                                                         ),
 
-                                                        MainScreen()
+                                                        MainScreen(),
 
                                                     ]
 
                                                 )
-
-                                            ),
-
-                                            DrawerMenu
-                                            (
-                                                animationController: animationController
 
                                             )
 
@@ -149,7 +142,7 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
 
                         ),
 
-                        DrawerIcon
+                        DrawerMenu
                         (
                             offset: offset,
                             scrollController: scrollController,

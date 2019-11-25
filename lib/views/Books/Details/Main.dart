@@ -62,9 +62,13 @@ class MainScreen extends StatelessWidget
                                             Padding
                                             (
                                                 padding: EdgeInsets.only(left: 6),
-                                                child: Text
+                                                child: Text("See Reviews", style: TextStyle
                                                 (
-                                                    "See Reviews", style: TextStyle(color: Color(0xff555555), fontWeight: FontWeight.w300, fontSize: 10))
+                                                    color: Color(0xff555555),
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 10
+
+                                                ))
 
                                             )
 
@@ -112,9 +116,13 @@ class MainScreen extends StatelessWidget
                                             Padding
                                             (
                                                 padding: EdgeInsets.only(left: 6),
-                                                child: Text
+                                                child: Text("Like", style: TextStyle
                                                 (
-                                                    "Like", style: TextStyle(color: Color(0xff555555), fontWeight: FontWeight.w300, fontSize: 10))
+                                                    color: Color(0xff555555),
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 10
+
+                                                ))
 
                                             )
 
@@ -149,9 +157,13 @@ class MainScreen extends StatelessWidget
                                             Padding
                                             (
                                                 padding: EdgeInsets.only(left: 6),
-                                                child: Text
+                                                child: Text("Share", style: TextStyle
                                                 (
-                                                    "Share", style: TextStyle(color: Color(0xff292929), fontWeight: FontWeight.w300, fontSize: 10))
+                                                    color: Color(0xff292929),
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 10
+
+                                                ))
 
                                             )
 
@@ -182,9 +194,13 @@ class MainScreen extends StatelessWidget
                     padding: EdgeInsets.fromLTRB(34, 24, 34, 0),
                     alignment: Alignment.centerLeft,
 
-                    child: Text
+                    child: Text("About the Book", style: TextStyle
                     (
-                        "About the Book", style: TextStyle(color: Color(0xff292929), fontSize: 20, fontWeight: FontWeight.w700))
+                        color: Color(0xff292929),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700
+
+                    ))
 
                 ),
 
@@ -193,9 +209,14 @@ class MainScreen extends StatelessWidget
                     padding: EdgeInsets.fromLTRB(34, 24, 34, 34),
                     alignment: Alignment.centerLeft,
 
-                    child: Text
+                    child: Text(book["description"], style: TextStyle
                     (
-                        book["description"], style: TextStyle(color: Color(0xff292929), fontSize: 16, fontWeight: FontWeight.w300, height: 1.2))
+                        color: Color(0xff292929),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                        height: 1.2
+
+                    ))
 
                 )
 

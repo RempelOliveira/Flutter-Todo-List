@@ -3,11 +3,13 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 
 class HeaderScreen extends StatelessWidget
 {
+    final int page;
     final double offset;
-    final String title;
+
+    final PageController pageController;
 
     HeaderScreen({
-        @required this.offset, @required this.title});
+        @required this.page, @required this.offset, @required this.pageController});
 
     @override
     Widget build(BuildContext context)
@@ -16,15 +18,21 @@ class HeaderScreen extends StatelessWidget
         (
             elevation: 0,
             backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
 
-            title: Text(title, style: TextStyle
+            leading: page == 0 ? null : IconButton
             (
-                color: Color(0xff292929),
-                fontSize: 14,
-                fontWeight: FontWeight.w500
+                icon: Icon(FontAwesomeIcons.chevronLeft, color: Color(0xff292929)),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
 
-            )),
+                onPressed: ()
+                {
+                    pageController.animateToPage(
+                        0, curve: Curves.ease, duration: Duration(milliseconds: 325));
+
+                }
+
+            ),
 
             actions: <Widget>
             [
