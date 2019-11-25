@@ -6,6 +6,8 @@ import "package:smooth_star_rating/smooth_star_rating.dart";
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/actions/BooksActions.dart";
 
+import "../../Authentication/SignIn.dart";
+
 class MainScreen extends StatelessWidget
 {
     final formKey = GlobalKey<FormState>();
@@ -122,7 +124,11 @@ class MainScreen extends StatelessWidget
 
                                             onTap: ()
                                             {
+                                                Navigator.of(context).push
+                                                (
+                                                    MaterialPageRoute(builder: (BuildContext context) => SignInScreen())
 
+                                                );
 
                                             }
 

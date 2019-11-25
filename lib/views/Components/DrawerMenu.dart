@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 import "../Authentication/SignIn.dart";
 import "../Authentication/SignUp.dart";
+import "../PrivacyAndTerms/Details.dart";
 
 class DrawerMenu extends StatelessWidget
 {
@@ -223,7 +224,14 @@ class DrawerMenu extends StatelessWidget
                                                         ),
 
                                                         onTap: ()
-                                                        {}
+                                                        {
+                                                            Navigator.of(context).push
+                                                            (
+                                                                MaterialPageRoute(builder: (BuildContext context) => DetailsScreen())
+
+                                                            );
+
+                                                        }
 
                                                     )
 

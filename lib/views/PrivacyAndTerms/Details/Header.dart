@@ -4,10 +4,9 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 class HeaderScreen extends StatelessWidget
 {
     final double offset;
-    final String favorite;
 
     HeaderScreen({
-        @required this.offset, this.favorite});
+        @required this.offset});
 
     @override
     Widget build(BuildContext context)
@@ -16,32 +15,27 @@ class HeaderScreen extends StatelessWidget
         (
             elevation: 0,
             backgroundColor: Colors.white,
+			automaticallyImplyLeading: false,
 
-            leading: IconButton
+            title: Text("Privacy & Terms", style: TextStyle
             (
-                icon: Icon(FontAwesomeIcons.chevronLeft, color: Color(0xff292929)),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+                color: Color(0xff292929),
+                fontSize: 14,
+                fontWeight: FontWeight.w500
 
-                onPressed: ()
-                {
-                    Navigator.of(context).pop(null);
-
-                }
-
-            ),
+            )),
 
             actions: <Widget>
             [
                 IconButton
                 (
-                    icon: Icon(favorite == "true" ? Icons.bookmark : Icons.bookmark_border, color: Color(favorite == "true" ? 0xff039be5 : 0xff929292)),
+                    icon: Icon(FontAwesomeIcons.times, color: Color(0xff292929)),
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
 
                     onPressed: ()
                     {
-
+                        Navigator.of(context).pop(null);
 
                     }
 
