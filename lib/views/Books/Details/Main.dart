@@ -8,6 +8,7 @@ import "package:google_books_api/store/Store.dart";
 
 import "../../Components/Book.dart";
 import "../Reviews.dart";
+import "../../Authentication/SignIn.dart";
 
 class MainScreen extends StatelessWidget
 {
@@ -132,7 +133,15 @@ class MainScreen extends StatelessWidget
 
                                     onTap: ()
                                     {
+                                        if(1 == 1)
+                                        {
+                                            Navigator.of(context).push
+                                            (
+                                                MaterialPageRoute(builder: (BuildContext context) => SignInScreen())
 
+                                            );
+
+                                        }
 
                                     }
 

@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 
+import "../../Authentication/SignIn.dart";
+
 class HeaderScreen extends StatelessWidget
 {
     final double offset;
@@ -41,7 +43,15 @@ class HeaderScreen extends StatelessWidget
 
                     onPressed: ()
                     {
+                        if(1 == 1)
+                        {
+                            Navigator.of(context).push
+                            (
+                                MaterialPageRoute(builder: (BuildContext context) => SignInScreen())
 
+                            );
+
+                        }
 
                     }
 

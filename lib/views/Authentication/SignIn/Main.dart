@@ -35,150 +35,198 @@ class _MainScreenState extends State<MainScreen>
 
                         )),
 
-                        Container
+                        Stack
                         (
-                            margin: EdgeInsets.only(top: 24),
-                            child: TextField
-                            (
-                                enabled: 1 == 2 ? false: true,
-                                style: TextStyle
+                            children: <Widget>
+                            [
+                                Container
                                 (
-                                    color: Color(0xffd0d0d0),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300
-
-                                ),
-
-                                decoration: InputDecoration
-                                (
-                                    filled: true,
-                                    fillColor: 1 == 2 ? Color(0xfff5f5f5) : Colors.white,
-
-                                    border: OutlineInputBorder
+                                    margin: EdgeInsets.only(top: 24),
+                                    child: TextField
                                     (
-                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    enabledBorder: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    disabledBorder: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xfff5f5f5)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    focusedBorder: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    hintText: "E-mail",
-                                    hintStyle: TextStyle
-                                    (
-                                        color: Color(0xffd0d0d0),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300
-
-                                    ),
-
-                                    contentPadding: EdgeInsets.fromLTRB(13, 9, 12, 9)
-
-                                )
-
-                            )
-
-                        ),
-
-                        Container
-                        (
-                            margin: EdgeInsets.only(top: 12),
-                            child: TextField
-                            (
-                                enabled: 1 == 2 ? false: true,
-                                obscureText: !showPassword,
-
-                                style: TextStyle
-                                (
-                                    color: Color(0xffd0d0d0),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300
-
-                                ),
-
-                                decoration: InputDecoration
-                                (
-                                    filled: true,
-                                    fillColor: 1 == 2 ? Color(0xfff5f5f5) : Colors.white,
-
-                                    border: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    enabledBorder: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    disabledBorder: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xfff5f5f5)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    focusedBorder: OutlineInputBorder
-                                    (
-                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                        borderRadius: BorderRadius.circular(4)
-
-                                    ),
-
-                                    hintText: "Password",
-                                    hintStyle: TextStyle
-                                    (
-                                        color: Color(0xffd0d0d0),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300
-
-                                    ),
-
-                                    suffixIcon: GestureDetector
-                                    (
-                                        child: Icon(showPassword ? FontAwesomeIcons.solidEyeSlash: FontAwesomeIcons.solidEye,
-
-                                            size: 18,
-                                            color: Color(0xffdbdbdb),
+                                        enabled: 1 == 2 ? false : true,
+                                        style: TextStyle
+                                        (
+                                            color: Color(0xffd0d0d0),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300
 
                                         ),
 
-                                        onTap: ()
-                                        {
-                                            setState(() => showPassword = !showPassword);
+                                        decoration: InputDecoration
+                                        (
+                                            filled: true,
+                                            fillColor: 1 == 2 ? Color(0xfff5f5f5) : Colors.white,
 
-                                        }
+                                            border: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: Color(0xffdbdbdb)),
+                                                borderRadius: BorderRadius.circular(4)
 
-                                    ),
+                                            ),
 
-                                    contentPadding: EdgeInsets.fromLTRB(13, 9, 12, 9)
+                                            enabledBorder: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            disabledBorder: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: Color(0xfff5f5f5)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            focusedBorder: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            hintText: "E-mail",
+                                            hintStyle: TextStyle
+                                            (
+                                                color: Color(0xffd0d0d0),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w300
+
+                                            ),
+
+                                            contentPadding: EdgeInsets.fromLTRB(13, 9, 12, 9)
+
+                                        )
+
+                                    )
+
+                                ),
+
+                                Container
+                                (
+                                    color: Colors.white,
+                                    margin: EdgeInsets.only(top: 18, left: 11.5),
+                                    padding: EdgeInsets.only(left: 2, right: 2),
+
+                                    child: Text("Required", style: TextStyle
+                                    (
+                                        color: Color(0xffff3860),
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w300
+
+                                    ))
 
                                 )
 
-                            )
+                            ]
+
+                        ),
+
+                        Stack
+                        (
+                            children: <Widget>
+                            [
+                                Container
+                                (
+                                    margin: EdgeInsets.only(top: 12),
+                                    child: TextField
+                                    (
+                                        enabled: 1 == 2 ? false: true,
+                                        obscureText: !showPassword,
+
+                                        style: TextStyle
+                                        (
+                                            color: Color(0xffd0d0d0),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300
+
+                                        ),
+
+                                        decoration: InputDecoration
+                                        (
+                                            filled: true,
+                                            fillColor: 1 == 2 ? Color(0xfff5f5f5) : Colors.white,
+
+                                            border: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: Color(0xffdbdbdb)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            enabledBorder: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            disabledBorder: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: Color(0xfff5f5f5)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            focusedBorder: OutlineInputBorder
+                                            (
+                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderRadius: BorderRadius.circular(4)
+
+                                            ),
+
+                                            hintText: "Password",
+                                            hintStyle: TextStyle
+                                            (
+                                                color: Color(0xffd0d0d0),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w300
+
+                                            ),
+
+                                            suffixIcon: GestureDetector
+                                            (
+                                                child: Icon(showPassword ? FontAwesomeIcons.solidEyeSlash: FontAwesomeIcons.solidEye,
+
+                                                    size: 18,
+                                                    color: Color(0xffdbdbdb),
+
+                                                ),
+
+                                                onTap: ()
+                                                {
+                                                    setState(() => showPassword = !showPassword);
+
+                                                }
+
+                                            ),
+
+                                            contentPadding: EdgeInsets.fromLTRB(13, 9, 12, 9)
+
+                                        )
+
+                                    )
+
+                                ),
+
+                                Container
+                                (
+                                    color: Colors.white,
+                                    margin: EdgeInsets.only(top: 6, left: 11.5),
+                                    padding: EdgeInsets.only(left: 2, right: 2),
+
+                                    child: Text("Required", style: TextStyle
+                                    (
+                                        color: Color(0xffff3860),
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w300
+
+                                    ))
+
+                                )
+
+                            ]
 
                         ),
 
