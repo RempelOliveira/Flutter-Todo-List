@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:google_books_api/utils/FormValidate.dart";
 
 import "../SignUp.dart";
 
@@ -12,13 +13,126 @@ class MainScreen extends StatefulWidget
 
 class _MainScreenState extends State<MainScreen>
 {
+    final formKey =
+        GlobalKey<FormState>();
+
+    final emailController    = TextEditingController();
+    final passwordController = TextEditingController();
+
+    final Map<String, Map<String, dynamic>> validation =
+    {
+        "email":
+        {
+            "value"     : "",
+            "validation":
+            {
+                "required": true, "email": true
+
+            }
+
+        },
+
+        "password":
+        {
+            "value"     : "",
+            "validation":
+            {
+                "required": true, "min": 6, "max": 12
+
+            }
+
+        },
+
+		"remember":
+		{
+			"value": true
+
+		},
+
+        "errors": {}
+
+    };
+
     bool showPassword = false;
+
+    void handleSignUp()
+    {
+        validation["email"]["value"]    = emailController.text;
+        validation["password"]["value"] = passwordController.text;
+        validation["remember"]["value"] = validation["remember"]["value"];
+
+        Map<String, dynamic> isValid =
+            formValidate(validation);
+
+        if(isValid.length == 0)
+        {
+            setState(()
+            {
+                validation["errors"] = isValid;
+
+            });
+
+            print(validation["remember"]["value"]);
+
+        }
+        else
+        {
+            setState(()
+            {
+                validation["errors"] = isValid;
+
+            });
+
+            final snackBar = SnackBar
+            (
+                elevation: 6,
+                backgroundColor: Color(0xffd32f2f),
+                behavior: SnackBarBehavior.floating,
+                duration: Duration(milliseconds: 5000),
+
+                content: Container
+                (
+                    child: Row
+                    (
+                        children: <Widget>
+                        [
+                            Icon(FontAwesomeIcons.exclamationCircle,
+                                size: 20
+                            ),
+
+                            Container
+                            (
+                                margin: EdgeInsets.only(left: 12),
+                                child: Text("Error! Please check the form fields.", style: TextStyle
+                                (
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500
+
+                                ))
+
+                            )
+
+                        ]
+
+                    )
+
+                )
+
+            );
+
+            Scaffold.of(context).showSnackBar(snackBar);
+
+        }
+
+    }
 
     @override
     Widget build(BuildContext context)
     {
         return Form
         (
+            key: formKey,
             child: Container
             (
                 margin: EdgeInsets.fromLTRB(24, 0, 24, 24),
@@ -45,6 +159,8 @@ class _MainScreenState extends State<MainScreen>
                                     child: TextField
                                     (
                                         enabled: 1 == 2 ? false : true,
+                                        controller: emailController,
+
                                         style: TextStyle
                                         (
                                             color: Color(0xffd0d0d0),
@@ -67,7 +183,7 @@ class _MainScreenState extends State<MainScreen>
 
                                             enabledBorder: OutlineInputBorder
                                             (
-                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderSide: BorderSide(color: validation["errors"]["email"] != null ? Color(0xffff3860) : Color(0xffdbdbdb)),
                                                 borderRadius: BorderRadius.circular(4)
 
                                             ),
@@ -81,7 +197,7 @@ class _MainScreenState extends State<MainScreen>
 
                                             focusedBorder: OutlineInputBorder
                                             (
-                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderSide: BorderSide(color: validation["errors"]["email"] != null ? Color(0xffff3860) : Color(0xffdbdbdb)),
                                                 borderRadius: BorderRadius.circular(4)
 
                                             ),
@@ -103,19 +219,24 @@ class _MainScreenState extends State<MainScreen>
 
                                 ),
 
-                                Container
+                                Visibility
                                 (
-                                    color: Colors.white,
-                                    margin: EdgeInsets.only(top: 18, left: 11.5),
-                                    padding: EdgeInsets.only(left: 2, right: 2),
-
-                                    child: Text("Required", style: TextStyle
+                                    visible: validation["errors"]["email"] != null,
+                                    child: Container
                                     (
-                                        color: Color(0xffff3860),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w300
+                                        color: Colors.white,
+                                        margin: EdgeInsets.only(top: 18, left: 11.5),
+                                        padding: EdgeInsets.only(left: 2, right: 2),
 
-                                    ))
+                                        child: Text(validation["errors"]["email"] ?? "", style: TextStyle
+                                        (
+                                            color: Color(0xffff3860),
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w300
+
+                                        ))
+
+                                    )
 
                                 )
 
@@ -133,6 +254,7 @@ class _MainScreenState extends State<MainScreen>
                                     child: TextField
                                     (
                                         enabled: 1 == 2 ? false: true,
+                                        controller: passwordController,
                                         obscureText: !showPassword,
 
                                         style: TextStyle
@@ -157,7 +279,7 @@ class _MainScreenState extends State<MainScreen>
 
                                             enabledBorder: OutlineInputBorder
                                             (
-                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderSide: BorderSide(color: validation["errors"]["password"] != null ? Color(0xffff3860) : Color(0xffdbdbdb)),
                                                 borderRadius: BorderRadius.circular(4)
 
                                             ),
@@ -171,7 +293,7 @@ class _MainScreenState extends State<MainScreen>
 
                                             focusedBorder: OutlineInputBorder
                                             (
-                                                borderSide: BorderSide(color: 1 == 1 ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                borderSide: BorderSide(color: validation["errors"]["password"] != null ? Color(0xffff3860) : Color(0xffdbdbdb)),
                                                 borderRadius: BorderRadius.circular(4)
 
                                             ),
@@ -210,19 +332,24 @@ class _MainScreenState extends State<MainScreen>
 
                                 ),
 
-                                Container
+                                Visibility
                                 (
-                                    color: Colors.white,
-                                    margin: EdgeInsets.only(top: 6, left: 11.5),
-                                    padding: EdgeInsets.only(left: 2, right: 2),
-
-                                    child: Text("Required", style: TextStyle
+                                    visible: validation["errors"]["password"] != null,
+                                    child: Container
                                     (
-                                        color: Color(0xffff3860),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w300
+                                        color: Colors.white,
+                                        margin: EdgeInsets.only(top: 6, left: 11.5),
+                                        padding: EdgeInsets.only(left: 2, right: 2),
 
-                                    ))
+                                        child: Text(validation["errors"]["password"] ?? "", style: TextStyle
+                                        (
+                                            color: Color(0xffff3860),
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w300
+
+                                        ))
+
+                                    )
 
                                 )
 
@@ -280,10 +407,15 @@ class _MainScreenState extends State<MainScreen>
                                 [
                                     Switch
                                     (
-                                        value: true,
+                                        value: validation["remember"]["value"],
                                         onChanged: (bool isChanged)
                                         {
+                                            setState(()
+                                            {
+                                                validation["remember"]["value"] =
+                                                    !validation["remember"]["value"];
 
+                                            });
 
                                         }
 
@@ -330,7 +462,7 @@ class _MainScreenState extends State<MainScreen>
 
                                 onPressed: ()
                                 {
-
+                                    handleSignUp();
 
                                 }
 

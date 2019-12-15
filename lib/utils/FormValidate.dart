@@ -14,7 +14,7 @@ Map<String, dynamic> formValidate(Map<String, Map<String, dynamic>> data)
 			Map<String, dynamic> validation =
 			    data[key]["validation"];
 
-            if(validation.isNotEmpty)
+            if(validation != null && validation.isNotEmpty)
             {
                 if(validation["required"] == true && value.isEmpty)
                 {

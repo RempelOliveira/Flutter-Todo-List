@@ -78,7 +78,11 @@ class _MainScreenState extends State<MainScreen>
 
         if(isValid.length == 0)
         {
-            print("no errors");
+            setState(()
+            {
+                validation["errors"] = isValid;
+
+            });
 
         }
         else
@@ -101,6 +105,7 @@ class _MainScreenState extends State<MainScreen>
                 elevation: 6,
                 backgroundColor: Color(0xffd32f2f),
                 behavior: SnackBarBehavior.floating,
+                duration: Duration(milliseconds: 5000),
 
                 content: Container
                 (
@@ -181,7 +186,7 @@ class _MainScreenState extends State<MainScreen>
                                                 margin: EdgeInsets.only(top: 24),
                                                 child: TextField
                                                 (
-                                                    enabled: 1 == 2 ? false: true,
+                                                    enabled: 1 == 2 ? false : true,
                                                     controller: nameController,
 
                                                     style: TextStyle
@@ -352,7 +357,7 @@ class _MainScreenState extends State<MainScreen>
                                                 margin: EdgeInsets.only(top: 24),
                                                 child: TextField
                                                 (
-                                                    enabled: 1 == 2 ? false: true,
+                                                    enabled: 1 == 2 ? false : true,
                                                     controller: emailController,
 
                                                     style: TextStyle
@@ -447,7 +452,7 @@ class _MainScreenState extends State<MainScreen>
                                                 margin: EdgeInsets.only(top: 12),
                                                 child: TextField
                                                 (
-                                                    enabled: 1 == 2 ? false: true,
+                                                    enabled: 1 == 2 ? false : true,
                                                     controller: passwordController,
                                                     obscureText: !showPassword,
 
