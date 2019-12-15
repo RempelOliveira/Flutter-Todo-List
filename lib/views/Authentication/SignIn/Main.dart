@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+
 import "package:google_books_api/utils/FormValidate.dart";
+import "package:google_books_api/views/Components/SnackBar.dart";
 
 import "../SignUp.dart";
 
@@ -72,7 +74,8 @@ class _MainScreenState extends State<MainScreen>
 
             });
 
-            print(validation["remember"]["value"]);
+            Scaffold.of(context).showSnackBar(SnackComponent(
+                message: "Processing data! Please wait a few moments.").build(context));
 
         }
         else
@@ -83,45 +86,8 @@ class _MainScreenState extends State<MainScreen>
 
             });
 
-            final snackBar = SnackBar
-            (
-                elevation: 6,
-                backgroundColor: Color(0xffd32f2f),
-                behavior: SnackBarBehavior.floating,
-                duration: Duration(milliseconds: 5000),
-
-                content: Container
-                (
-                    child: Row
-                    (
-                        children: <Widget>
-                        [
-                            Icon(FontAwesomeIcons.exclamationCircle,
-                                size: 20
-                            ),
-
-                            Container
-                            (
-                                margin: EdgeInsets.only(left: 12),
-                                child: Text("Error! Please check the form fields.", style: TextStyle
-                                (
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
-
-                                ))
-
-                            )
-
-                        ]
-
-                    )
-
-                )
-
-            );
-
-            Scaffold.of(context).showSnackBar(snackBar);
+            Scaffold.of(context).showSnackBar(SnackComponent(
+                type: "danger", message: "Error! Please check the form fields.").build(context));
 
         }
 
