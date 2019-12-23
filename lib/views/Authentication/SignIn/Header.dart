@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 
+import "package:google_books_api/actions/UsersActions.dart";
+import "package:google_books_api/store/Store.dart";
+
 class HeaderScreen extends StatelessWidget
 {
     final double offset;
@@ -11,6 +14,11 @@ class HeaderScreen extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
+        store.dispatch(
+            ChangeIsLoadingSignIn(false)
+
+        );
+
         return AppBar
         (
             elevation: 0,

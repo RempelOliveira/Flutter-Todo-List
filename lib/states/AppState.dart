@@ -1,5 +1,8 @@
 class AppState
 {
+    String tab;
+    String category;
+
     int booksTotal;
     List<dynamic> books;
     int skipBooks;
@@ -14,13 +17,15 @@ class AppState
     bool isLoadingReviews;
     bool isLoadingAllReviews;
 
-    String tab;
-    String category;
+    Map user;
+
+    bool isLoadingSignIn;
+    bool isLoadingSignUp;
 
     AppState({
-        this.tab, this.category, this.booksTotal, this.books, this.skipBooks, this.isLoadingBooks, this.isLoadingMoreBooks, this.book, this.reviewsTotal, this.reviews, this.allReviews, this.isLoadingReviews, this.isLoadingAllReviews });
+        this.tab, this.category, this.booksTotal, this.books, this.skipBooks, this.isLoadingBooks, this.isLoadingMoreBooks, this.book, this.reviewsTotal, this.reviews, this.allReviews, this.isLoadingReviews, this.isLoadingAllReviews, this.user, this.isLoadingSignIn, this.isLoadingSignUp });
 
-	AppState copyWith({ tab, category, booksTotal, books, skipBooks, isLoadingBooks, isLoadingMoreBooks, book, reviewsTotal, reviews, allReviews, isLoadingReviews, isLoadingAllReviews })
+	AppState copyWith({ tab, category, booksTotal, books, skipBooks, isLoadingBooks, isLoadingMoreBooks, book, reviewsTotal, reviews, allReviews, isLoadingReviews, isLoadingAllReviews, user, isLoadingSignIn, isLoadingSignUp })
 	{
 		return AppState
 		(
@@ -36,7 +41,10 @@ class AppState
 			reviews: reviews ?? this.reviews,
 			allReviews: allReviews ?? this.allReviews,
 			isLoadingReviews: isLoadingReviews ?? this.isLoadingReviews,
-			isLoadingAllReviews: isLoadingAllReviews ?? this.isLoadingAllReviews
+			isLoadingAllReviews: isLoadingAllReviews ?? this.isLoadingAllReviews,
+			user: user ?? this.user,
+			isLoadingSignIn: isLoadingSignIn ?? this.isLoadingSignIn,
+			isLoadingSignUp: isLoadingSignUp ?? this.isLoadingSignUp
 
 		);
 

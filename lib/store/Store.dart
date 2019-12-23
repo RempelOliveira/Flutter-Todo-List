@@ -1,12 +1,13 @@
 import "package:google_books_api/reducers/BooksReducer.dart";
+import "package:google_books_api/reducers/UsersReducer.dart";
+
 import "package:redux/redux.dart";
 import "package:google_books_api/states/AppState.dart";
 import "package:redux_thunk/redux_thunk.dart";
 
 final store = Store<AppState>
 (
-    reducer,
-    initialState: AppState
+    combineReducers([booksReducer, userReducer]), initialState: AppState
     (
         tab: "browse",
         category: "typography",
@@ -20,7 +21,10 @@ final store = Store<AppState>
         reviews: [],
         allReviews: false,
         isLoadingReviews: true,
-        isLoadingAllReviews: true
+        isLoadingAllReviews: true,
+        user: {},
+        isLoadingSignIn: false,
+        isLoadingSignUp: false
 
     ),
 

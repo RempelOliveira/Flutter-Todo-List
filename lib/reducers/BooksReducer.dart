@@ -1,7 +1,7 @@
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/actions/BooksActions.dart";
 
-AppState reducer(AppState state, dynamic action)
+AppState booksReducer(AppState state, dynamic action)
 {
     if(action is ChangeTab)
     {

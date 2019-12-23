@@ -4,10 +4,10 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 class SnackComponent extends StatelessWidget
 {
     final String type;
-    final String message;
+    final dynamic message;
 
     SnackComponent({
-        this.type = "info", @required this.message});
+        this.type = "info", this.message});
 
     @override
     Widget build(BuildContext context)
@@ -30,7 +30,7 @@ class SnackComponent extends StatelessWidget
                 color = 0xffd32f2f;
             break;
             case "success":
-                icon = FontAwesomeIcons.exclamationCircle;
+                icon = FontAwesomeIcons.solidCheckCircle;
                 color = 0xff43a047;
             break;
 
@@ -59,13 +59,33 @@ class SnackComponent extends StatelessWidget
                             child: Container
                             (
                                 margin: EdgeInsets.only(left: 12),
-                                child: Text(message, style: TextStyle
-                                (
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
+                                child: message.runtimeType == String
+                                    ?
+                                        Text(message, style: TextStyle
+                                        (
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500
 
-                                ))
+                                        ))
+                                    :
+                                        RichText
+                                        (
+                                            text: TextSpan
+                                            (
+                                                style: TextStyle
+                                                (
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500
+
+                                                ),
+
+                                                children: message
+
+                                            )
+
+                                        )
 
                             )
 

@@ -19,7 +19,7 @@ ThunkAction<AppState> getBooks = (Store<AppState> store)
     Future.delayed(Duration(milliseconds: 500), () async
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.0.5:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"));
+            Uri.encodeFull("http://192.168.5.1:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"));
 
         if(response.statusCode == 200)
         {
@@ -104,7 +104,7 @@ ThunkAction<AppState> getReviews = (Store<AppState> store)
     Future.delayed(Duration(milliseconds: 500), () async
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.0.5:3002/api/books/${store.state.book["id"]}/reviews?all=${store.state.allReviews}"));
+            Uri.encodeFull("http://192.168.5.1:3002/api/books/${store.state.book["id"]}/reviews?all=${store.state.allReviews}"));
 
         if(response.statusCode == 200)
         {
