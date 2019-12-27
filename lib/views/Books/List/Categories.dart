@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_redux/flutter_redux.dart";
-import "package:google_books_api/actions/BooksActions.dart";
+
 import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/actions/BooksActions.dart";
 
 class CategoriesScreen extends StatelessWidget
 {
@@ -84,12 +85,6 @@ class CategoriesScreen extends StatelessWidget
 
                                                 StoreProvider.of<AppState>(context)
                                                     .dispatch(ChangeCategory(categories.elementAt(index).toLowerCase()));
-
-                                                StoreProvider.of<AppState>(context)
-                                                    .dispatch(ChangeSkipBooks(0));
-
-                                                StoreProvider.of<AppState>(context)
-                                                    .dispatch(getBooks);
 
                                             }
 

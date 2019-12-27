@@ -1,19 +1,23 @@
 import "package:flutter/material.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter_redux/flutter_redux.dart";
+import "package:url_launcher/url_launcher.dart";
 
-import "package:google_books_api/actions/BooksActions.dart";
 import "package:google_books_api/states/AppState.dart";
 
-import "Details/Header.dart";
-import "Details/Main.dart";
+import "package:google_books_api/actions/BooksActions.dart";
+
+import "package:google_books_api/views/Books/Details/Header.dart";
+import "package:google_books_api/views/Books/Details/Main.dart";
+
+import "package:google_books_api/views/Components/SnackBar.dart";
 
 class DetailsScreen extends StatefulWidget
 {
-    final Map<String, dynamic> book;
+    final String bookId;
 
     DetailsScreen({
-        @required this.book});
+        @required this.bookId});
 
     @override
     _DetailsScreenState createState() => _DetailsScreenState();
@@ -23,7 +27,47 @@ class DetailsScreen extends StatefulWidget
 class _DetailsScreenState extends State<DetailsScreen>
 {
     double offset = 0.0;
+    bool internalError = false;
+
     ScrollController scrollController;
+
+    void handleRead([delayed = false])
+    {
+        Future.delayed(Duration(milliseconds: delayed ? 1000 : 0), () async
+        {
+            getBook(context, widget.bookId).then((Map<String, dynamic> data)
+            {
+                if(data.isNotEmpty)
+                {
+                    if(data["error"] != null)
+                    {
+                        Scaffold.of(context).showSnackBar(
+                            SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+
+                        if(!internalError)
+                        {
+                            setState(()
+                            {
+                                internalError = true;
+
+                            });
+
+                        }
+
+                    }
+
+                }
+
+            }).catchError((error)
+            {
+                Scaffold.of(context).showSnackBar(
+                    SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+
+            });
+
+        });
+
+    }
 
     @override
     void initState()
@@ -40,6 +84,8 @@ class _DetailsScreenState extends State<DetailsScreen>
 
         });
 
+        handleRead();
+
     }
 
     @override
@@ -55,9 +101,6 @@ class _DetailsScreenState extends State<DetailsScreen>
 
         StoreProvider.of<AppState>(context)
             .dispatch(UpdateBookReviews(0, []));
-
-        StoreProvider.of<AppState>(context)
-            .dispatch(UpdateBook(widget.book));
 
     }
 
@@ -76,8 +119,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                     preferredSize: Size.fromHeight(AppBar().preferredSize.height),
                     child: HeaderScreen
                     (
-                        offset: offset,
-                        favorite: widget.book["favorite"].toString()
+                        offset: offset
 
                     )
 
@@ -86,31 +128,59 @@ class _DetailsScreenState extends State<DetailsScreen>
                 body: SingleChildScrollView
                 (
                     controller: scrollController,
-                    child: MainScreen
+                    child: StoreConnector<AppState, AppState>
                     (
-                        book: widget.book,
+                        converter:(store) => store.state,
+                        builder: (BuildContext context, AppState state)
+                        {
+                            return MainScreen
+                            (
+                                book: state.book,
+                                user: state.user
+
+                            );
+
+                        }
 
                     )
 
                 ),
 
                 floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-                floatingActionButton: FloatingActionButton.extended
+                floatingActionButton: StoreConnector<AppState, AppState>
                 (
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                    backgroundColor: Color(0xff039be5),
+                    converter:(store) => store.state,
+                    builder: (BuildContext context, AppState state)
+                    {
+                        return FloatingActionButton.extended
+                        (
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                            backgroundColor: Color(0xff039be5),
 
-                    label: Text("BUY NOW", style: TextStyle
-                    (
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500
+                            label: Text("BUY NOW", style: TextStyle
+                            (
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500
 
-                    )),
+                            )),
 
-                    onPressed: ()
-                    {}
+                            onPressed: () async
+                            {
+                                if(await canLaunch(state.book["url"]))
+                                {
+                                    await launch(state.book["url"]);
+
+                                }
+                                else
+                                    throw "Could not launch ${state.book["url"]}";
+
+                            }
+
+                        );
+
+                    }
 
                 ),
 

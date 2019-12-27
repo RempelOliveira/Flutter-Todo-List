@@ -50,6 +50,45 @@ setAuthUser([ String token = "", bool remember = false ]) async
 
 }
 
+getAuthUser([getToken = false]) async
+{
+    final SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+
+	String token =
+		prefs.getBool("69127pigpu9p14ul_remember") == true ? prefs.getString("69127pigpu9p14ul") : "";
+
+	if(token.isNotEmpty)
+	{
+		if(!getToken)
+		{
+			try
+			{
+                final Map<String, dynamic> user =
+                    verifyJwtHS256Signature(token, "5u896p9p14ulnq6912li7pigpuoea1ig")["user"];
+
+                return {
+                    "id": user["id"], "type": user["type"], "name": user["name"], "email": user["email"], "score": user["score"]
+
+                };
+
+			}
+			catch (err)
+			{
+				return setAuthUser();
+
+			}
+
+		}
+		else
+			return "Bearer " + token;
+
+	}
+
+	return "";
+
+}
+
 String setAuthPassword(String password)
 {
     return Encrypter(AES(Key.fromUtf8("5u896p9p14ulnq6912li7pigpuoea1ig"), mode: AESMode.cbc, padding: "PKCS7"))

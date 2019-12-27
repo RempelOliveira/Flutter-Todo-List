@@ -13,7 +13,27 @@ AppState userReducer(AppState state, dynamic action)
 
     }
 
+    if(action is SignInByToken)
+    {
+        return state.copyWith
+        (
+            user: action.user
+
+        );
+
+    }
+
     if(action is SignUp)
+    {
+        return state.copyWith
+        (
+            user: action.user
+
+        );
+
+    }
+
+    if(action is UpdateUser)
     {
         return state.copyWith
         (

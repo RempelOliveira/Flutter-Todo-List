@@ -35,7 +35,7 @@ Future<Map<String, dynamic>> signUp(context, Map user) async
     }
     on SocketException catch(error)
     {
-        return { "error": { "internal": error.message }};
+        return { "error": { "internal": "Network fail" }};
 
     }
     catch(error)
@@ -75,7 +75,7 @@ Future<Map<String, dynamic>> signIn(context, Map user) async
     }
     on SocketException catch(error)
     {
-        return { "error": { "internal": error.message }};
+        return { "error": { "internal": "Network fail" }};
 
     }
     catch(error)
@@ -86,12 +86,30 @@ Future<Map<String, dynamic>> signIn(context, Map user) async
 
 }
 
+Future<void> signInByToken(context) async
+{
+    final store =
+        StoreProvider.of<AppState>(context);
+
+    dynamic user = await getAuthUser();
+
+    if(user.toString().isNotEmpty)
+    {
+        store.dispatch(
+            SignInByToken(user)
+
+        );
+
+    }
+
+}
+
 Future<void> signOut(context) async
 {
     final store =
         StoreProvider.of<AppState>(context);
 
-    setAuthUser();
+    await setAuthUser();
 
     store.dispatch(
         SignOut()
@@ -107,6 +125,13 @@ class SignIn
 
 }
 
+class SignInByToken
+{
+    Map<String, dynamic> user;
+    SignInByToken(this.user);
+
+}
+
 class SignUp
 {
     Map<String, dynamic> user;
@@ -117,6 +142,13 @@ class SignUp
 class SignOut
 {
     SignOut();
+
+}
+
+class UpdateUser
+{
+    Map<String, dynamic> user;
+    UpdateUser(this.user);
 
 }
 

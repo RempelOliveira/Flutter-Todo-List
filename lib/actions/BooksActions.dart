@@ -1,78 +1,142 @@
+import "dart:io";
 import "dart:convert";
 import "package:http/http.dart" as http;
+
 import "package:redux/redux.dart";
 import "package:redux_thunk/redux_thunk.dart";
+import "package:flutter_redux/flutter_redux.dart";
 
 import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/actions/UsersActions.dart";
 
-ThunkAction<AppState> getBooks = (Store<AppState> store)
+import "package:google_books_api/utils/UserAuthentication.dart";
+
+Future<Map<String, dynamic>> getBooks(context) async
 {
-    if(!store.state.isLoadingBooks && !store.state.isLoadingMoreBooks)
+    final store =
+        StoreProvider.of<AppState>(context);
+
+    try
     {
+        http.Response response = await http.get(
+            Uri.encodeFull("http://192.168.5.1:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
+
+        Map<String, dynamic> data =
+            jsonDecode(response.body);
+
+        if(data["error"] == "authorization")
+            signOut(context);
+
         store.dispatch(
-            ChangeIsLoadingBooks(true)
+            UpdateBooksList(data["total"], data["books"], store.state.skipBooks == 0)
 
         );
 
+        store.dispatch(
+            ChangeSkipBooks(data["books"] != null ? store.state.skipBooks + data["books"].length : 0)
+
+        );
+
+        return data;
+
+    }
+    on SocketException catch(error)
+    {
+        return { "error": { "internal": "Network fail" }};
+
+    }
+    catch(error)
+    {
+        return error.response.data;
+
     }
 
-    Future.delayed(Duration(milliseconds: 500), () async
+}
+
+Future<Map<String, dynamic>> getBook(context, String bookId) async
+{
+    final store =
+        StoreProvider.of<AppState>(context);
+
+    try
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.5.1:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"));
+            Uri.encodeFull("http://192.168.5.1:3002/api/books/$bookId"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
 
-        if(response.statusCode == 200)
+        Map<String, dynamic> data =
+            jsonDecode(response.body);
+
+        if(data["error"] == "authorization")
+            signOut(context);
+
+        store.dispatch(
+            UpdateBook(data["book"])
+
+        );
+
+        return data;
+
+    }
+    on SocketException catch(error)
+    {
+        return { "error": { "internal": "Network fail" }};
+
+    }
+    catch(error)
+    {
+        return error.response.data;
+
+    }
+
+}
+
+Future<Map<String, dynamic>> updateBook(context, Map<String, dynamic> book, String action) async
+{
+    final store =
+        StoreProvider.of<AppState>(context);
+
+    try
+    {
+        http.Response response = await http.patch(
+            Uri.encodeFull("http://192.168.5.1:3002/api/books/$action"), body: { "id": book["id"] }, headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
+
+        Map<String, dynamic> data =
+            jsonDecode(response.body);
+
+        if(data["error"] == "authorization")
         {
-            Map data =
-                jsonDecode(response.body);
-
-            if(data["error"] == "authorization")
-            {
-                print("authorization error");
-
-            }
-            else
-            {
-                store.dispatch(
-                    UpdateBooksList(data["total"], data["books"], store.state.skipBooks == 0)
-
-                );
-
-                store.dispatch(
-                    ChangeSkipBooks(store.state.skipBooks + data["books"].length)
-
-                );
-
-            }
-
-            if(store.state.isLoadingBooks)
-            {
-                store.dispatch(
-                    ChangeIsLoadingBooks(false)
-
-                );
-
-            }
-
-            if(store.state.isLoadingMoreBooks)
-            {
-                store.dispatch(
-                    ChangeIsLoadingMoreBooks(false)
-
-                );
-
-            }
+            signOut(context);
 
         }
         else
         {
-            print("catch error: $response");
+            store.dispatch(
+                UpdateBook(data["book"])
+
+            );
+
+            store.dispatch(
+                UpdateUser(await setAuthUser(data["user"]["token"]))
+
+            );
 
         }
 
-    });
+        return data;
 
-};
+    }
+    on SocketException catch(error)
+    {
+        return { "error": { "internal": "Network fail" }};
+
+    }
+    catch(error)
+    {
+        return error.response.data;
+
+    }
+
+}
 
 ThunkAction<AppState> getReviews = (Store<AppState> store)
 {

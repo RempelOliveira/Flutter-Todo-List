@@ -1,15 +1,70 @@
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:flutter_redux/flutter_redux.dart";
 
-import "../../Authentication/SignIn.dart";
+import "package:google_books_api/store/Store.dart";
+import "package:google_books_api/states/AppState.dart";
 
-class HeaderScreen extends StatelessWidget
+import "package:google_books_api/views/Components/SnackBar.dart";
+import "package:google_books_api/views/Authentication/SignIn.dart";
+
+import "package:google_books_api/actions/BooksActions.dart";
+
+class HeaderScreen extends StatefulWidget
 {
     final double offset;
-    final String favorite;
 
     HeaderScreen({
-        @required this.offset, this.favorite});
+        @required this.offset });
+
+    @override
+    _HeaderScreenState createState() => _HeaderScreenState();
+
+}
+
+class _HeaderScreenState extends State<HeaderScreen>
+{
+    void handleUpdateFavorite(Map<String, dynamic> book)
+    {
+        updateBook(context, book, !book["favorite"] ? "favorite" : "unfavorite").then((Map<String, dynamic> data)
+        {
+            if(data.isNotEmpty)
+            {
+                if(data["error"] != null)
+                {
+                    if(data["error"] == "authorization")
+                    {
+                        Navigator.of(context).push
+                        (
+                            MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                            (
+                                store: store,
+                                child: SignInScreen()
+
+                            ))
+
+                        );
+
+                    }
+                    else if(data["error"]["internal"])
+                    {
+                        Scaffold.of(context).showSnackBar(
+                            SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+
+                    }
+
+                }
+
+            }
+
+        }).catchError((error)
+        {
+            Scaffold.of(context).showSnackBar(
+                SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+
+        });
+
+    }
 
     @override
     Widget build(BuildContext context)
@@ -35,23 +90,39 @@ class HeaderScreen extends StatelessWidget
 
             actions: <Widget>
             [
-                IconButton
+                StoreConnector<AppState, AppState>
                 (
-                    icon: Icon(favorite == "true" ? Icons.bookmark : Icons.bookmark_border, color: Color(favorite == "true" ? 0xff039be5 : 0xff929292)),
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-
-                    onPressed: ()
+                    converter:(store) => store.state,
+                    builder: (BuildContext context, AppState state)
                     {
-                        if(1 == 1)
-                        {
-                            Navigator.of(context).push
-                            (
-                                MaterialPageRoute(builder: (BuildContext context) => SignInScreen())
+                        return IconButton
+                        (
+                            icon: Icon(state.book["favorite"].toString() == "true" ? Icons.bookmark : Icons.bookmark_border, color: Color(state.book["favorite"].toString() == "true" ? 0xff039be5 : 0xff929292)),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
 
-                            );
+                            onPressed: ()
+                            {
+                                if(state.user.isEmpty)
+                                {
+                                    Navigator.of(context).push
+                                    (
+                                        MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                                        (
+                                            store: store,
+                                            child: SignInScreen()
 
-                        }
+                                        ))
+
+                                    );
+
+                                }
+                                else
+                                    handleUpdateFavorite(state.book);
+
+                            }
+
+                        );
 
                     }
 
@@ -69,7 +140,7 @@ class HeaderScreen extends StatelessWidget
                         border: Border(bottom: BorderSide
                         (
                             width: 1,
-                            color: offset > 0 ? Color(0xffeaeaea) : Colors.transparent
+                            color: widget.offset > 0 ? Color(0xffeaeaea) : Colors.transparent
 
                         ))
 
@@ -82,5 +153,4 @@ class HeaderScreen extends StatelessWidget
         );
 
     }
-
 }

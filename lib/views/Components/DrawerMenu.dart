@@ -153,7 +153,7 @@ class _DrawerMenuState extends State<DrawerMenu>
                                                             (
                                                                 children: <Widget>
                                                                 [
-                                                                    Text(state.user["scores"] != null ? state.user["scores"]["likes"] : "0", style: TextStyle
+                                                                    Text(state.user["score"] != null ? state.user["score"]["likes"].toString() : "0", style: TextStyle
                                                                     (
                                                                         color: Color(0xff929292),
                                                                         fontSize: 12,
@@ -177,7 +177,7 @@ class _DrawerMenuState extends State<DrawerMenu>
                                                             (
                                                                 children: <Widget>
                                                                 [
-                                                                    Text(state.user["scores"] != null ? state.user["scores"]["favorites"] : "0", style: TextStyle
+                                                                    Text(state.user["score"] != null ? state.user["score"]["favorites"].toString() : "0", style: TextStyle
                                                                     (
                                                                         color: Color(0xff929292),
                                                                         fontSize: 12,
@@ -201,7 +201,7 @@ class _DrawerMenuState extends State<DrawerMenu>
                                                             (
                                                                 children: <Widget>
                                                                 [
-                                                                    Text(state.user["scores"] != null ? state.user["scores"]["reviews"] : "0", style: TextStyle
+                                                                    Text(state.user["score"] != null ? state.user["score"]["reviews"].toString() : "0", style: TextStyle
                                                                     (
                                                                         color: Color(0xff929292),
                                                                         fontSize: 12,

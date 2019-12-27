@@ -1,14 +1,12 @@
 import "package:flutter/material.dart";
-import "package:flutter_redux/flutter_redux.dart";
+import 'package:google_books_api/actions/UsersActions.dart';
+import 'package:google_books_api/store/Store.dart';
 
-import "package:google_books_api/actions/BooksActions.dart";
-import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/views/Books/List/Main.dart";
+import "package:google_books_api/views/Books/List/Header.dart";
+import "package:google_books_api/views/Books/List/Categories.dart";
 
-import "List/Categories.dart";
-import "List/Header.dart";
-import "List/Main.dart";
-
-import "../Components/DrawerMenu.dart";
+import "package:google_books_api/views/Components/DrawerMenu.dart";
 
 class ListScreen extends StatefulWidget
 {
@@ -24,7 +22,6 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
 	AnimationController animationController;
 	ScrollController scrollController;
 
-    String tab = "browse";
 	double offset = 0.0;
 
     @override
@@ -43,23 +40,6 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
 
             });
 
-            AppState state =
-                StoreProvider.of<AppState>(context).state;
-
-            if(state.books.length < state.booksTotal && !state.isLoadingMoreBooks)
-            {
-                if(scrollController.offset >= scrollController.position.maxScrollExtent - 100)
-                {
-                    StoreProvider.of<AppState>(context)
-                        .dispatch(ChangeIsLoadingMoreBooks(true));
-
-                    StoreProvider.of<AppState>(context)
-                        .dispatch(getBooks);
-
-                }
-
-            }
-
         });
 
     }
@@ -69,8 +49,10 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
     {
         super.didChangeDependencies();
 
-        StoreProvider.of<AppState>(context)
-            .dispatch(getBooks);
+        store.dispatch(
+            signInByToken(context)
+
+        );
 
     }
 
@@ -124,7 +106,11 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
 
                                                         ),
 
-                                                        MainScreen(),
+                                                        MainScreen
+                                                        (
+                                                            scrollController: scrollController
+
+                                                        ),
 
                                                     ]
 
