@@ -19,7 +19,7 @@ Future<Map<String, dynamic>> getBooks(context) async
     try
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.5.1:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
+            Uri.encodeFull("http://192.168.0.8:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
@@ -61,7 +61,7 @@ Future<Map<String, dynamic>> getBook(context, String bookId) async
     try
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.5.1:3002/api/books/$bookId"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
+            Uri.encodeFull("http://192.168.0.8:3002/api/books/$bookId"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
@@ -98,7 +98,7 @@ Future<Map<String, dynamic>> updateBook(context, Map<String, dynamic> book, Stri
     try
     {
         http.Response response = await http.patch(
-            Uri.encodeFull("http://192.168.5.1:3002/api/books/$action"), body: { "id": book["id"] }, headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
+            Uri.encodeFull("http://192.168.0.8:3002/api/books/$action"), body: { "id": book["id"] }, headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
@@ -168,7 +168,7 @@ ThunkAction<AppState> getReviews = (Store<AppState> store)
     Future.delayed(Duration(milliseconds: 500), () async
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.5.1:3002/api/books/${store.state.book["id"]}/reviews?all=${store.state.allReviews}"));
+            Uri.encodeFull("http://192.168.0.8:3002/api/books/${store.state.book["id"]}/reviews?all=${store.state.allReviews}"));
 
         if(response.statusCode == 200)
         {

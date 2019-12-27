@@ -14,7 +14,7 @@ Future<Map<String, dynamic>> signUp(context, Map user) async
     try
     {
         http.Response response = await http.post(
-            Uri.encodeFull("http://192.168.5.1:3002/api/users/sign-up"), body: { "name": user["name"].toString(), "email": user["email"].toString(), "password": setAuthPassword(user["password"].toString()) });
+            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-up"), body: { "name": user["name"].toString(), "email": user["email"].toString(), "password": setAuthPassword(user["password"].toString()) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
@@ -54,7 +54,7 @@ Future<Map<String, dynamic>> signIn(context, Map user) async
     try
     {
         http.Response response = await http.post(
-            Uri.encodeFull("http://192.168.5.1:3002/api/users/sign-in"), body: { "email": user["email"].toString(), "password": setAuthPassword(user["password"].toString()), "remember": user["remember"].toString() });
+            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-in"), body: { "email": user["email"].toString(), "password": setAuthPassword(user["password"].toString()), "remember": user["remember"].toString() });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);

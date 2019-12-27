@@ -12,6 +12,57 @@ class MainScreen extends StatelessWidget
 {
     final formKey = GlobalKey<FormState>();
 
+    renderReviews(items)
+    {
+        return items.map<Widget>((dynamic item) =>
+            Container
+            (
+                margin: EdgeInsets.only(top: 24),
+                child: Column
+                (
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>
+                    [
+                        Text(item["user"]["name"], style: TextStyle
+                        (
+                            color: Color(0xff292929),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500
+
+                        )),
+
+                        SmoothStarRating
+                        (
+                            rating: item["rating"].toDouble(),
+                            starCount: 5,
+                            size: 18,
+                            allowHalfRating: false,
+                            color: Color(0xffffaf2e),
+                            borderColor: Color(0xffffaf2e)
+
+                        ),
+
+                        Container
+                        (
+                            margin: EdgeInsets.only(top: 12),
+                            child: Text(item["review"], style: TextStyle
+                            (
+                                color: Color(0xff929292),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w100
+
+                            ))
+
+                        )
+
+                    ]
+
+                )
+
+            ));
+
+    }
+
     @override
     Widget build(BuildContext context)
     {
@@ -238,55 +289,8 @@ class MainScreen extends StatelessWidget
                                                     Column
                                                     (
                                                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                        children: <Widget>
-                                                        [
-                                                            ...state.reviews.map((dynamic item) =>
-                                                                Container
-                                                                (
-                                                                    margin: EdgeInsets.only(top: 24),
-                                                                    child: Column
-                                                                    (
-                                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                                        children: <Widget>
-                                                                        [
-                                                                            Text(item["user"]["name"], style: TextStyle
-                                                                            (
-                                                                                color: Color(0xff292929),
-                                                                                fontSize: 14,
-                                                                                fontWeight: FontWeight.w500
-
-                                                                            )),
-
-                                                                            SmoothStarRating
-                                                                            (
-                                                                                rating: item["rating"].toDouble(),
-                                                                                starCount: 5,
-                                                                                size: 18,
-                                                                                allowHalfRating: false,
-                                                                                color: Color(0xffffaf2e),
-                                                                                borderColor: Color(0xffffaf2e)
-
-                                                                            ),
-
-                                                                            Container
-                                                                            (
-                                                                                margin: EdgeInsets.only(top: 12),
-                                                                                child: Text(item["review"], style: TextStyle
-                                                                                (
-                                                                                    color: Color(0xff929292),
-                                                                                    fontSize: 10,
-                                                                                    fontWeight: FontWeight.w100
-
-                                                                                ))
-
-                                                                            )
-
-                                                                        ]
-
-                                                                    )
-
-                                                                )),
-
+                                                        children: renderReviews(state.reviews).toList()..add
+                                                        (
                                                             Visibility
                                                             (
                                                                 visible: state.reviews.length < state.reviewsTotal,
@@ -340,7 +344,7 @@ class MainScreen extends StatelessWidget
 
                                                             )
 
-                                                        ]
+                                                        )
 
                                                     )
 

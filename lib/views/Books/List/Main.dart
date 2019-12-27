@@ -31,6 +31,42 @@ class _MainScreenState extends State<MainScreen>
     bool isFirstRun = true;
     bool internalError = false;
 
+    renderBooks(items)
+    {
+        return items.map<Widget>((dynamic item) =>
+            GestureDetector
+            (
+                child: BookComponent
+                (
+                    title: item["title"],
+                    subtitle: item["subtitle"],
+                    thumbnail: item["thumbnail"],
+                    reviews: item["reviews"],
+                    rating: {
+                        "stars": item["rating"]["stars"], "total": item["rating"]["total"], "users": item["rating"]["users"]
+                    }
+
+                ),
+
+                onTap: ()
+                {
+                    Navigator.of(context).push
+                    (
+                        MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                        (
+                            store: store,
+                            child: DetailsScreen(bookId: item["id"])
+
+                        ))
+
+                    );
+
+                }
+
+            ));
+
+    }
+
     void handleList([delayed = false])
     {
         setState(()
@@ -222,40 +258,8 @@ class _MainScreenState extends State<MainScreen>
                                                         ?
                                                             Column
                                                             (
-                                                                children: <Widget>
-                                                                [
-                                                                    ...state.books.map((dynamic item) =>
-                                                                        GestureDetector
-                                                                        (
-                                                                            child: BookComponent
-                                                                            (
-                                                                                title: item["title"],
-                                                                                subtitle: item["subtitle"],
-                                                                                thumbnail: item["thumbnail"],
-                                                                                reviews: item["reviews"],
-                                                                                rating: {
-                                                                                    "stars": item["rating"]["stars"], "total": item["rating"]["total"], "users": item["rating"]["users"]
-                                                                                }
-
-                                                                            ),
-
-                                                                            onTap: ()
-                                                                            {
-                                                                                Navigator.of(context).push
-                                                                                (
-                                                                                    MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
-                                                                                    (
-                                                                                        store: store,
-                                                                                        child: DetailsScreen(bookId: item["id"])
-
-                                                                                    ))
-
-                                                                                );
-
-                                                                            }
-
-                                                                        )),
-
+                                                                children: renderBooks(state.books).toList()..add
+                                                                (
                                                                     Visibility
                                                                     (
                                                                         visible: state.books.length < state.booksTotal,
@@ -272,7 +276,7 @@ class _MainScreenState extends State<MainScreen>
 
                                                                     )
 
-                                                                ]
+                                                                )
 
                                                             )
 
