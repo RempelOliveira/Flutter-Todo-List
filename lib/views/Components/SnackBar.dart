@@ -1,20 +1,27 @@
 import "package:flutter/material.dart";
+import "package:flushbar/flushbar.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 
-class SnackComponent extends StatelessWidget
+class SnackComponent
 {
-    final String type;
-    final dynamic message;
+    static Flushbar current;
+    static BuildContext buildContext;
 
-    SnackComponent({
-        this.type = "info", this.message});
+    static final SnackComponent _singleton =
+        new SnackComponent._internal();
 
-    @override
-    Widget build(BuildContext context)
+    factory SnackComponent(BuildContext context){ buildContext = context; return _singleton; }
+
+    SnackComponent._internal();
+
+    show({String type = "info", dynamic message})
     {
         int color;
         IconData icon;
         String sufix;
+
+        if(current != null)
+            current.dismiss();
 
         switch(type)
         {
@@ -26,84 +33,70 @@ class SnackComponent extends StatelessWidget
             case "warning":
                 icon = FontAwesomeIcons.exclamationCircle;
                 color = 0xffffc100;
-                sufix = "Warning";
+                sufix = "Warning! ";
             break;
             case "danger":
                 icon = FontAwesomeIcons.exclamationCircle;
                 color = 0xffd32f2f;
-                sufix = "Error";
+                sufix = "Error! ";
             break;
             case "success":
                 icon = FontAwesomeIcons.solidCheckCircle;
                 color = 0xff43a047;
-                sufix = "Success";
+                sufix = "Success! ";
             break;
 
         }
 
-        Scaffold.of(context).
-            removeCurrentSnackBar();
-
-        return SnackBar
+        current = Flushbar
         (
-            elevation: 6,
+            icon: Icon(icon, size: 20, color: Colors.white),
+            margin: EdgeInsets.all(8),
+            duration: Duration(seconds: 5),
+            borderRadius: 4,
+            shouldIconPulse: false,
+            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+            isDismissible: true,
             backgroundColor: Color(color),
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(milliseconds: 5000),
+            animationDuration: Duration(milliseconds: 250),
 
-            content: Container
-            (
-                child: Row
-                (
-                    children: <Widget>
-                    [
-                        Icon(icon, size: 20),
+            boxShadows:
+            [
+                BoxShadow(color: Colors.black45, offset: Offset(0, 3), blurRadius: 3)
 
-                        Expanded
+            ],
+
+            messageText: message.runtimeType == String
+                ?
+                    Text("${sufix.toString().isNotEmpty ? sufix : ""}$message", style: TextStyle
+                    (
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500
+
+                    ))
+
+                :
+                    RichText
+                    (
+                        text: TextSpan
                         (
-                            child: Container
+                            text: "${sufix.toString().isNotEmpty ? sufix : ""}",
+                            style: TextStyle
                             (
-                                margin: EdgeInsets.only(left: 12),
-                                child: message.runtimeType == String
-                                    ?
-                                        Text("$sufix! $message", style: TextStyle
-                                        (
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500
 
-                                        ))
-                                    :
-                                        RichText
-                                        (
-                                            text: TextSpan
-                                            (
-                                                text: "$sufix! ",
-                                                style: TextStyle
-                                                (
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500
+                            ),
 
-                                                ),
-
-                                                children: message
-
-                                            )
-
-                                        )
-
-                            )
+                            children: message
 
                         )
 
-                    ]
+                    )
 
-                )
-
-            )
-
-        );
+        )..show(buildContext);
 
     }
 

@@ -26,6 +26,9 @@ class _HeaderScreenState extends State<HeaderScreen>
 {
     void handleUpdateFavorite(Map<String, dynamic> book)
     {
+        SnackComponent snackBar =
+            SnackComponent(context);
+
         updateBook(context, book, book["favorite"].toString() == "false" ? "favorite" : "unfavorite").then((Map<String, dynamic> data)
         {
             if(data.isNotEmpty)
@@ -48,8 +51,12 @@ class _HeaderScreenState extends State<HeaderScreen>
                     }
                     else if(data["error"]["internal"])
                     {
-                        Scaffold.of(context).showSnackBar(
-                            SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+                        snackBar.show
+                        (
+                            type: "danger",
+                            message: data["error"]["internal"]
+
+                        );
 
                     }
 
@@ -59,8 +66,12 @@ class _HeaderScreenState extends State<HeaderScreen>
 
         }).catchError((error)
         {
-            Scaffold.of(context).showSnackBar(
-                SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+            snackBar.show
+            (
+                type: "danger",
+                message: "An internal error occurred."
+
+            );
 
         });
 

@@ -32,15 +32,25 @@ class _DrawerMenuState extends State<DrawerMenu>
 
 	void handleSignOutUser()
     {
-        Scaffold.of(context).showSnackBar(SnackComponent(
-            message: "Processing data! Please wait a few moments.").build(context));
+        SnackComponent snackBar =
+            SnackComponent(context);
+
+        snackBar.show
+        (
+            message: "Processing data! Please wait a few moments."
+
+        );
 
         Future.delayed(Duration(milliseconds: 1000), () async
         {
             signOut(context).then((data)
             {
-                Scaffold.of(context).showSnackBar(
-                    SnackComponent(type: "success", message: "Now you are logged out.").build(context));
+                snackBar.show
+                (
+                    type: "success",
+                    message: "Now you are logged out."
+
+                );
 
             });
 

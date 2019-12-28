@@ -31,6 +31,9 @@ class _MainScreenState extends State<MainScreen>
 {
     void handleUpdateLike(Map<String, dynamic> book)
     {
+        SnackComponent snackBar =
+            SnackComponent(context);
+
         updateBook(context, book, book["like"].toString() == "false" ? "like" : "dislike").then((Map<String, dynamic> data)
         {
             if(data.isNotEmpty)
@@ -53,8 +56,12 @@ class _MainScreenState extends State<MainScreen>
                     }
                     else if(data["error"]["internal"])
                     {
-                        Scaffold.of(context).showSnackBar(
-                            SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+                        snackBar.show
+                        (
+                            type: "danger",
+                            message: data["error"]["internal"]
+
+                        );
 
                     }
 
@@ -64,8 +71,12 @@ class _MainScreenState extends State<MainScreen>
 
         }).catchError((error)
         {
-            Scaffold.of(context).showSnackBar(
-                SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+            snackBar.show
+            (
+                type: "danger",
+                message: "An internal error occurred."
+
+            );
 
         });
 

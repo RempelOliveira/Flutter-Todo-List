@@ -33,6 +33,9 @@ class _DetailsScreenState extends State<DetailsScreen>
 
     void handleRead([delayed = false])
     {
+        SnackComponent snackBar =
+            SnackComponent(context);
+
         Future.delayed(Duration(milliseconds: delayed ? 1000 : 0), () async
         {
             getBook(context, widget.bookId).then((Map<String, dynamic> data)
@@ -41,8 +44,12 @@ class _DetailsScreenState extends State<DetailsScreen>
                 {
                     if(data["error"] != null)
                     {
-                        Scaffold.of(context).showSnackBar(
-                            SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+                        snackBar.show
+                        (
+                            type: "danger",
+                            message: data["error"]["internal"]
+
+                        );
 
                         if(!internalError)
                         {
@@ -60,8 +67,12 @@ class _DetailsScreenState extends State<DetailsScreen>
 
             }).catchError((error)
             {
-                Scaffold.of(context).showSnackBar(
-                    SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+                snackBar.show
+                (
+                    type: "danger",
+                    message: "An internal error occurred."
+
+                );
 
             });
 

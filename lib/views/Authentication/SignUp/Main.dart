@@ -77,6 +77,9 @@ class _MainScreenState extends State<MainScreen>
 
     void handleSignUp()
     {
+        SnackComponent snackBar =
+            SnackComponent(context);
+
         validation["name"]["value"]     = nameController.text;
         validation["email"]["value"]    = emailController.text;
         validation["password"]["value"] = passwordController.text;
@@ -91,8 +94,11 @@ class _MainScreenState extends State<MainScreen>
 
             );
 
-            Scaffold.of(context).showSnackBar(SnackComponent(
-                message: "Processing data! Please wait a few moments.").build(context));
+            snackBar.show
+            (
+                message: "Processing data! Please wait a few moments."
+
+            );
 
             setState(()
             {
@@ -111,13 +117,28 @@ class _MainScreenState extends State<MainScreen>
                             final String name =
                                 data["name"].split(" ")[0];
 
-                            Scaffold.of(context).showSnackBar(SnackComponent(type: "success", message: <TextSpan>
-                            [
-                                TextSpan(text: "Welcome "),
-                                TextSpan(text: name, style: TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: ", wait for automatic redirection."),
+                            /*
+                                Scaffold.of(context).showSnackBar(SnackComponent(type: "success", message: <TextSpan>
+                                [
+                                    TextSpan(text: "Welcome "),
+                                    TextSpan(text: name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: ", wait for automatic redirection."),
 
-                            ]).build(context));
+                                ]).build(context));
+                            */
+
+                            snackBar.show
+                            (
+                                type: "success",
+                                message: <TextSpan>
+                                [
+                                    TextSpan(text: "Welcome "),
+                                    TextSpan(text: name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: ", wait for automatic redirection."),
+
+                                ]
+
+                            );
 
 							Future.delayed(Duration(milliseconds: 1750), () async
 							{
@@ -169,14 +190,22 @@ class _MainScreenState extends State<MainScreen>
 
                                 });
 
-                                Scaffold.of(context).showSnackBar(
-                                    SnackComponent(type: "danger", message: "Please check the form fields.").build(context));
+                                snackBar.show
+                                (
+                                    type: "danger",
+                                    message: "Please check the form fields."
+
+                                );
 
                             }
 							else
 							{
-                                Scaffold.of(context).showSnackBar(
-                                    SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+                                snackBar.show
+                                (
+                                    type: "danger",
+                                    message: data["error"]["internal"]
+
+                                );
 
 							}
 
@@ -191,8 +220,12 @@ class _MainScreenState extends State<MainScreen>
 
                 }).catchError((error)
                 {
-                    Scaffold.of(context).showSnackBar(
-                        SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+                    snackBar.show
+                    (
+                        type: "danger",
+                        message: "An internal error occurred."
+
+                    );
 
                     store.dispatch(
                         ChangeIsLoadingSignUp(false)
@@ -219,8 +252,12 @@ class _MainScreenState extends State<MainScreen>
 
             });
 
-            Scaffold.of(context).showSnackBar(SnackComponent(
-                type: "danger", message: "Error! Please check the form fields.").build(context));
+            snackBar.show
+            (
+                type: "danger",
+                message: "Please check the form fields."
+
+            );
 
         }
 

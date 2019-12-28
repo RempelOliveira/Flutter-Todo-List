@@ -69,6 +69,9 @@ class _MainScreenState extends State<MainScreen>
 
     void handleList([delayed = false])
     {
+        SnackComponent snackBar =
+            SnackComponent(context);
+
         setState(()
         {
             if(tab != store.state.tab)
@@ -102,8 +105,12 @@ class _MainScreenState extends State<MainScreen>
                 {
                     if(data["error"] != null)
                     {
-                        Scaffold.of(context).showSnackBar(
-                            SnackComponent(type: "danger", message: data["error"]["internal"]).build(context));
+                        snackBar.show
+                        (
+                            type: "danger",
+                            message: data["error"]["internal"]
+
+                        );
 
                         if(!internalError)
                         {
@@ -139,8 +146,12 @@ class _MainScreenState extends State<MainScreen>
 
             }).catchError((error)
             {
-                Scaffold.of(context).showSnackBar(
-                    SnackComponent(type: "danger", message: "An internal error occurred.").build(context));
+                snackBar.show
+                (
+                    type: "danger",
+                    message: "An internal error occurred."
+
+                );
 
                 if(!internalError)
                 {
