@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_redux/flutter_redux.dart";
 
-import "package:google_books_api/actions/BooksActions.dart";
 import "package:google_books_api/states/AppState.dart";
+import "package:google_books_api/actions/Reviews.dart";
 
 import "Reviews/Header.dart";
 import "Reviews/Main.dart";

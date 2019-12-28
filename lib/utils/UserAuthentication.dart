@@ -7,7 +7,7 @@ setAuthUser([ String token = "", bool remember = false ]) async
     final SharedPreferences prefs =
         await SharedPreferences.getInstance();
 
-    remember = remember || prefs.getBool("69127pigpu9p14ul_remember");
+    remember = remember || prefs.getBool("69127pigpu9p14ul_remember") == true;
 
     if(token.isNotEmpty)
     {
@@ -22,8 +22,6 @@ setAuthUser([ String token = "", bool remember = false ]) async
 				prefs.setBool("69127pigpu9p14ul_remember", true);
 
             }
-            else
-                print("sessionStorage.removeItem(TOKEN_KEY)");
 
             return {
                 "id": user["id"], "type": user["type"], "name": user["name"], "email": user["email"], "score": user["score"]
@@ -31,8 +29,7 @@ setAuthUser([ String token = "", bool remember = false ]) async
             };
 
         }
-        on JwtException catch (err)
-        {}
+        on JwtException catch (_){ return; }
 
     }
     else
@@ -43,20 +40,19 @@ setAuthUser([ String token = "", bool remember = false ]) async
             prefs.remove("69127pigpu9p14ul_remember");
 
         }
-        else
-            print("sessionStorage.removeItem(TOKEN_KEY)");
 
     }
 
+    return;
+
 }
 
-getAuthUser([getToken = false]) async
+getAuthUser([ bool getToken = false, String token = "" ]) async
 {
     final SharedPreferences prefs =
         await SharedPreferences.getInstance();
 
-	String token =
-		prefs.getBool("69127pigpu9p14ul_remember") == true ? prefs.getString("69127pigpu9p14ul") : "";
+	token = prefs.getBool("69127pigpu9p14ul_remember") == true ? prefs.getString("69127pigpu9p14ul") : token;
 
 	if(token.isNotEmpty)
 	{

@@ -71,7 +71,6 @@ class _MainScreenState extends State<MainScreen>
 
         validation["email"]["value"]    = emailController.text;
         validation["password"]["value"] = passwordController.text;
-        validation["remember"]["value"] = validation["remember"]["value"];
 
         Map<String, dynamic> isValid =
             formValidate(validation);

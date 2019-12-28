@@ -6,13 +6,181 @@ import "package:smooth_star_rating/smooth_star_rating.dart";
 import "package:google_books_api/store/Store.dart";
 
 import "package:google_books_api/states/AppState.dart";
-import "package:google_books_api/actions/BooksActions.dart";
+import "package:google_books_api/utils/FormValidate.dart";
 
+import "package:google_books_api/views/Components/SnackBar.dart";
 import "package:google_books_api/views/Authentication/SignIn.dart";
 
-class MainScreen extends StatelessWidget
+import "package:google_books_api/actions/Reviews.dart";
+
+class MainScreen extends StatefulWidget
 {
-    final formKey = GlobalKey<FormState>();
+    @override
+    _MainScreenState createState() => _MainScreenState();
+
+}
+
+class _MainScreenState extends State<MainScreen>
+{
+    final formKey =
+        GlobalKey<FormState>();
+
+    final reviewController =
+        TextEditingController();
+
+    final Map<String, Map<String, dynamic>> validation =
+    {
+        "rating":
+        {
+            "value": 0
+
+        },
+
+        "review":
+        {
+            "value"     : "",
+            "validation":
+            {
+                "required": true
+
+            }
+
+        },
+
+        "errors": {}
+
+    };
+
+    double rating = 0;
+
+    void handleCreateReview()
+    {
+        SnackComponent snackBar =
+            SnackComponent(context);
+
+        validation["rating"]["value"] = rating;
+        validation["review"]["value"] = reviewController.text;
+
+        Map<String, dynamic> isValid =
+            formValidate(validation);
+
+        if(isValid.length == 0)
+        {
+            snackBar.show
+            (
+                message: "Processing data! Please wait a few moments."
+
+            );
+
+            setState(()
+            {
+                validation["errors"] = isValid;
+
+            });
+
+            Future.delayed(Duration(milliseconds: 1000), () async
+            {
+                createReview(context, { "rating": validation["rating"]["value"].toInt().toString(), "review": validation["review"]["value"] }).then((Map<String, dynamic> data)
+                {
+                    if(data.isNotEmpty)
+                    {
+                        if(data["error"] == null)
+                        {
+                            snackBar.show
+                            (
+                                type: "success",
+                                message: "Thanks for your review."
+
+                            );
+
+
+
+                        }
+                        else
+                        {
+                            if(data["error"]["internal"] == null)
+                            {
+								if(data["error"] == "authorization")
+								{
+                                    Navigator.of(context).pushAndRemoveUntil
+                                    (
+                                        MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                                        (
+                                            store: store,
+                                            child: SignInScreen()
+
+                                        )),
+
+                                        (Route<dynamic> route) => false
+
+                                    );
+
+								}
+								else
+								{
+                                    setState(()
+                                    {
+                                        validation["errors"] = data["error"];
+
+                                    });
+
+                                    snackBar.show
+                                    (
+                                        type: "danger",
+                                        message: "Please check the form fields."
+
+                                    );
+
+								}
+
+                            }
+							else
+							{
+                                snackBar.show
+                                (
+                                    type: "danger",
+                                    message: data["error"]["internal"]
+
+                                );
+
+							}
+
+                        }
+
+                    }
+
+                }).catchError((error)
+                {
+                    snackBar.show
+                    (
+                        type: "danger",
+                        message: "An internal error occurred."
+
+                    );
+
+                });
+
+            });
+
+        }
+        else
+        {
+            setState(()
+            {
+                validation["errors"] = isValid;
+
+            });
+
+            snackBar.show
+            (
+                type: "danger",
+                message: "Please check the form fields."
+
+            );
+
+        }
+
+    }
 
     renderReviews(items)
     {
@@ -90,79 +258,120 @@ class MainScreen extends StatelessWidget
                                     [
                                         SmoothStarRating
                                         (
-                                            rating: state.user.isEmpty ? 5 : 0,
+                                            rating: state.user.isEmpty ? 5 : rating,
                                             starCount: 5,
                                             size: 18,
                                             allowHalfRating: false,
                                             color: state.user.isEmpty ? Color(0xffcbd3e3) : Color(0xffffaf2e),
-                                            borderColor: state.user.isEmpty ? Color(0xffcbd3e3) : Color(0xffffaf2e)
+                                            borderColor: state.user.isEmpty ? Color(0xffcbd3e3) : Color(0xffffaf2e),
+
+                                            onRatingChanged: (double value)
+                                            {
+                                                setState(()
+                                                {
+                                                    rating = value;
+
+                                                });
+
+                                            }
 
                                         ),
 
-                                        Container
+                                        Stack
                                         (
-                                            margin: EdgeInsets.only(top: 6, bottom: 6),
-                                            child: TextField
-                                            (
-                                                maxLines: 5,
-                                                minLines: 5,
-                                                enabled: state.user.isEmpty ? false : true,
-
-                                                style: TextStyle
+                                            children: <Widget>
+                                            [
+                                                Container
                                                 (
-                                                    color: Color(0xffd0d0d0),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w300
+                                                    margin: EdgeInsets.only(top: 6, bottom: 6),
+                                                    child: TextField
+                                                    (
+                                                        enabled: state.user.isEmpty ? false : true,
+                                                        controller: reviewController,
+
+                                                        minLines: 5,
+                                                        maxLines: 5,
+
+                                                        style: TextStyle
+                                                        (
+                                                            color: Colors.black,
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w300
+
+                                                        ),
+
+                                                        decoration: InputDecoration
+                                                        (
+                                                            filled: true,
+                                                            fillColor: state.isLoadingSignIn ? Color(0xfff5f5f5) : Colors.white,
+
+                                                            border: OutlineInputBorder
+                                                            (
+                                                                borderSide: BorderSide(color: Color(0xffdbdbdb)),
+                                                                borderRadius: BorderRadius.circular(4)
+
+                                                            ),
+
+                                                            enabledBorder: OutlineInputBorder
+                                                            (
+                                                                borderSide: BorderSide(color: validation["errors"]["review"] != null ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                                borderRadius: BorderRadius.circular(4)
+
+                                                            ),
+
+                                                            disabledBorder: OutlineInputBorder
+                                                            (
+                                                                borderSide: BorderSide(color: Color(0xfff5f5f5)),
+                                                                borderRadius: BorderRadius.circular(4)
+
+                                                            ),
+
+                                                            focusedBorder: OutlineInputBorder
+                                                            (
+                                                                borderSide: BorderSide(color: validation["errors"]["review"] != null ? Color(0xffff3860) : Color(0xffdbdbdb)),
+                                                                borderRadius: BorderRadius.circular(4)
+
+                                                            ),
+
+                                                            hintText: "Write your review...",
+                                                            hintStyle: TextStyle
+                                                            (
+                                                                color: Color(0xffd0d0d0),
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w300
+
+                                                            ),
+
+                                                            contentPadding: EdgeInsets.fromLTRB(13, 9, 12, 9)
+
+                                                        )
+
+                                                    )
 
                                                 ),
 
-                                                decoration: InputDecoration
+                                                Visibility
                                                 (
-                                                    filled: true,
-                                                    fillColor: state.user.isEmpty ? Color(0xfff5f5f5) : Colors.white,
-
-                                                    border: OutlineInputBorder
+                                                    visible: validation["errors"]["review"] != null,
+                                                    child: Container
                                                     (
-                                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                                        borderRadius: BorderRadius.circular(4)
+                                                        color: Colors.white,
+                                                        margin: EdgeInsets.only(top: 0, left: 11.5),
+                                                        padding: EdgeInsets.only(left: 2, right: 2),
 
-                                                    ),
+                                                        child: Text("Required" ?? "", style: TextStyle
+                                                        (
+                                                            color: Color(0xffff3860),
+                                                            fontSize: 11,
+                                                            fontWeight: FontWeight.w300
 
-                                                    enabledBorder: OutlineInputBorder
-                                                    (
-                                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                                        borderRadius: BorderRadius.circular(4)
+                                                        ))
 
-                                                    ),
-
-                                                    disabledBorder: OutlineInputBorder
-                                                    (
-                                                        borderSide: BorderSide(color: Color(0xfff5f5f5)),
-                                                        borderRadius: BorderRadius.circular(4)
-
-                                                    ),
-
-                                                    focusedBorder: OutlineInputBorder
-                                                    (
-                                                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                                                        borderRadius: BorderRadius.circular(4)
-
-                                                    ),
-
-                                                    hintText: "Write your review...",
-                                                    hintStyle: TextStyle
-                                                    (
-                                                        color: Color(0xffd0d0d0),
-                                                        fontSize: 14,
-                                                        fontWeight: FontWeight.w300
-
-                                                    ),
-
-                                                    contentPadding: EdgeInsets.fromLTRB(13, 9, 12, 9)
+                                                    )
 
                                                 )
 
-                                            )
+                                            ]
 
                                         ),
 
@@ -260,7 +469,7 @@ class MainScreen extends StatelessWidget
 
                                                         onPressed: state.user.isEmpty ? null : ()
                                                         {
-
+                                                            handleCreateReview();
 
                                                         }
 
@@ -399,5 +608,4 @@ class MainScreen extends StatelessWidget
         );
 
     }
-
 }

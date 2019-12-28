@@ -6,7 +6,7 @@ import "package:flutter_redux/flutter_redux.dart";
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/utils/UserAuthentication.dart";
 
-Future<Map<String, dynamic>> signUp(context, Map user) async
+Future<Map<String, dynamic>> signUp(context, Map<String, dynamic> user) async
 {
     final store =
         StoreProvider.of<AppState>(context);
@@ -14,7 +14,7 @@ Future<Map<String, dynamic>> signUp(context, Map user) async
     try
     {
         http.Response response = await http.post(
-            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-up"), body: { "name": user["name"].toString(), "email": user["email"].toString(), "password": setAuthPassword(user["password"].toString()) });
+            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-up"), body: { "name": user["name"], "email": user["email"], "password": setAuthPassword(user["password"]) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
@@ -46,7 +46,7 @@ Future<Map<String, dynamic>> signUp(context, Map user) async
 
 }
 
-Future<Map<String, dynamic>> signIn(context, Map user) async
+Future<Map<String, dynamic>> signIn(context, Map<String, dynamic> user) async
 {
     final store =
         StoreProvider.of<AppState>(context);
@@ -54,13 +54,22 @@ Future<Map<String, dynamic>> signIn(context, Map user) async
     try
     {
         http.Response response = await http.post(
-            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-in"), body: { "email": user["email"].toString(), "password": setAuthPassword(user["password"].toString()), "remember": user["remember"].toString() });
+            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-in"), body: { "email": user["email"], "password": setAuthPassword(user["password"]), "remember": user["remember"].toString() });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
 
         if(data["error"] == null)
         {
+            if(user["remember"] == false)
+            {
+                store.dispatch(
+                    StoreToken(data["token"])
+
+                );
+
+            }
+
             data = await setAuthUser(data["token"], user["remember"]);
 
             store.dispatch(
@@ -80,6 +89,8 @@ Future<Map<String, dynamic>> signIn(context, Map user) async
     }
     catch(error)
     {
+        print(error);
+
         return error.response.data;
 
     }
@@ -115,6 +126,13 @@ Future<void> signOut(context) async
         SignOut()
 
     );
+
+}
+
+class StoreToken
+{
+    String token;
+    StoreToken(this.token);
 
 }
 

@@ -117,16 +117,6 @@ class _MainScreenState extends State<MainScreen>
                             final String name =
                                 data["name"].split(" ")[0];
 
-                            /*
-                                Scaffold.of(context).showSnackBar(SnackComponent(type: "success", message: <TextSpan>
-                                [
-                                    TextSpan(text: "Welcome "),
-                                    TextSpan(text: name, style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: ", wait for automatic redirection."),
-
-                                ]).build(context));
-                            */
-
                             snackBar.show
                             (
                                 type: "success",

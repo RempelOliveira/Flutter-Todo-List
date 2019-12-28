@@ -18,14 +18,15 @@ class AppState
     bool isLoadingAllReviews;
 
     Map user;
+    String token;
 
     bool isLoadingSignIn;
     bool isLoadingSignUp;
 
     AppState({
-        this.tab, this.category, this.booksTotal, this.books, this.skipBooks, this.isLoadingBooks, this.isLoadingMoreBooks, this.book, this.reviewsTotal, this.reviews, this.allReviews, this.isLoadingReviews, this.isLoadingAllReviews, this.user, this.isLoadingSignIn, this.isLoadingSignUp });
+        this.tab, this.category, this.booksTotal, this.books, this.skipBooks, this.isLoadingBooks, this.isLoadingMoreBooks, this.book, this.reviewsTotal, this.reviews, this.allReviews, this.isLoadingReviews, this.isLoadingAllReviews, this.user, this.token, this.isLoadingSignIn, this.isLoadingSignUp });
 
-	AppState copyWith({ tab, category, booksTotal, books, skipBooks, isLoadingBooks, isLoadingMoreBooks, book, reviewsTotal, reviews, allReviews, isLoadingReviews, isLoadingAllReviews, user, isLoadingSignIn, isLoadingSignUp })
+	AppState copyWith({ tab, category, booksTotal, books, skipBooks, isLoadingBooks, isLoadingMoreBooks, book, reviewsTotal, reviews, allReviews, isLoadingReviews, isLoadingAllReviews, user, token, isLoadingSignIn, isLoadingSignUp })
 	{
 		return AppState
 		(
@@ -43,6 +44,7 @@ class AppState
 			isLoadingReviews: isLoadingReviews ?? this.isLoadingReviews,
 			isLoadingAllReviews: isLoadingAllReviews ?? this.isLoadingAllReviews,
 			user: user ?? this.user,
+			token: token ?? this.token,
 			isLoadingSignIn: isLoadingSignIn ?? this.isLoadingSignIn,
 			isLoadingSignUp: isLoadingSignUp ?? this.isLoadingSignUp
 

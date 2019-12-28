@@ -6,6 +6,7 @@ import "package:url_launcher/url_launcher.dart";
 import "package:google_books_api/states/AppState.dart";
 
 import "package:google_books_api/actions/BooksActions.dart";
+import "package:google_books_api/actions/Reviews.dart";
 
 import "package:google_books_api/views/Books/Details/Header.dart";
 import "package:google_books_api/views/Books/Details/Main.dart";

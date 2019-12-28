@@ -97,7 +97,7 @@ class _MainScreenState extends State<MainScreen>
 
         }
 
-        Future.delayed(Duration(milliseconds: delayed || isFirstRun ? 1000 : 0), () async
+        Future.delayed(Duration(milliseconds: delayed || isFirstRun ? 1000 : 375), () async
         {
             getBooks(context).then((Map<String, dynamic> data)
             {

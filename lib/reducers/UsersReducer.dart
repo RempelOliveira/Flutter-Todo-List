@@ -3,6 +3,16 @@ import "package:google_books_api/actions/UsersActions.dart";
 
 AppState userReducer(AppState state, dynamic action)
 {
+    if(action is StoreToken)
+    {
+        return state.copyWith
+        (
+            token: action.token
+
+        );
+
+    }
+
     if(action is SignIn)
     {
         return state.copyWith
