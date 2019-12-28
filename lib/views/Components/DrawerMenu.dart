@@ -109,7 +109,7 @@ class _DrawerMenuState extends State<DrawerMenu>
                                     child: Container
                                     (
                                         transform: Matrix4.translationValues(
-                                            0, 0, 0), //- (MediaQuery.of(context).size.width - 40), 0, 0),
+                                            0, 0, 0),
 
                                         width: MediaQuery.of(context).size.width - 40,
                                         color: Colors.white,
@@ -122,14 +122,14 @@ class _DrawerMenuState extends State<DrawerMenu>
                                                 Container
                                                 (
                                                     color: Color(0xfffcfcfc),
-                                                    padding: EdgeInsets.all(24),
+                                                    padding: EdgeInsets.fromLTRB(24, 24, 69, 24),
 
                                                     child: Column
                                                     (
                                                         crossAxisAlignment: CrossAxisAlignment.stretch,
                                                         children: <Widget>
                                                         [
-                                                            Text(state.user["name"] != null ? state.user["name"] : "Welcome!", style: TextStyle
+                                                            Text(state.user["name"] != null ? state.user["name"] : "Welcome!", overflow: TextOverflow.ellipsis, style: TextStyle
                                                             (
                                                                 color: Colors.black,
                                                                 fontSize: 16,
@@ -137,7 +137,7 @@ class _DrawerMenuState extends State<DrawerMenu>
 
                                                             )),
 
-                                                            Text(state.user["email"] != null ? state.user["email"] : "Sign in app to see your score", style: TextStyle
+                                                            Text(state.user["email"] != null ? state.user["email"] : "Sign in app to see your score", overflow: TextOverflow.ellipsis, style: TextStyle
                                                             (
                                                                 color: Color(0xff929292),
                                                                 fontSize: 12,
