@@ -26,7 +26,7 @@ class _HeaderScreenState extends State<HeaderScreen>
 {
     void handleUpdateFavorite(Map<String, dynamic> book)
     {
-        updateBook(context, book, !book["favorite"] ? "favorite" : "unfavorite").then((Map<String, dynamic> data)
+        updateBook(context, book, book["favorite"].toString() == "false" ? "favorite" : "unfavorite").then((Map<String, dynamic> data)
         {
             if(data.isNotEmpty)
             {

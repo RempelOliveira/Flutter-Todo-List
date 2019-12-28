@@ -135,8 +135,8 @@ class _DetailsScreenState extends State<DetailsScreen>
                         {
                             return MainScreen
                             (
-                                book: state.book,
-                                user: state.user
+                                user: state.user,
+                                book: state.book
 
                             );
 
@@ -186,19 +186,28 @@ class _DetailsScreenState extends State<DetailsScreen>
 
                 persistentFooterButtons: <Widget>
                 [
-                    Container
+                    StoreConnector<AppState, AppState>
                     (
-                        height: 23,
-                        width: MediaQuery.of(context).size.width - 21,
-                        padding: EdgeInsets.only(top: 2.2),
+                        converter:(store) => store.state,
+                        builder: (BuildContext context, AppState state)
+                        {
+                            return Container
+                            (
+                                height: 23,
+                                width: MediaQuery.of(context).size.width - 21,
+                                padding: EdgeInsets.only(top: 2.2),
 
-                        child: Text("R\$ 93.63", style: TextStyle
-                        (
-                            color: Color(0xff039be5),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500
+                                child: Text("R\$ ${state.book["price"]}", style: TextStyle
+                                (
+                                    color: Color(0xff039be5),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500
 
-                        ))
+                                ))
+
+                            );
+
+                        }
 
                     )
 

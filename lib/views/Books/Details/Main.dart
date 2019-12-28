@@ -16,8 +16,8 @@ import "package:google_books_api/actions/BooksActions.dart";
 
 class MainScreen extends StatefulWidget
 {
+    final Map user;
     final Map<String, dynamic> book;
-    final Map<String, dynamic> user;
 
     MainScreen({
         @required this.book, @required this.user});
@@ -31,7 +31,7 @@ class _MainScreenState extends State<MainScreen>
 {
     void handleUpdateLike(Map<String, dynamic> book)
     {
-        updateBook(context, book, !book["like"] ? "like" : "dislike").then((Map<String, dynamic> data)
+        updateBook(context, book, book["like"].toString() == "false" ? "like" : "dislike").then((Map<String, dynamic> data)
         {
             if(data.isNotEmpty)
             {

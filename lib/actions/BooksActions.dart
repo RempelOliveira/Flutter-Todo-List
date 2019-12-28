@@ -95,6 +95,8 @@ Future<Map<String, dynamic>> updateBook(context, Map<String, dynamic> book, Stri
     final store =
         StoreProvider.of<AppState>(context);
 
+    print("http://192.168.0.8:3002/api/books/$action");
+
     try
     {
         http.Response response = await http.patch(
