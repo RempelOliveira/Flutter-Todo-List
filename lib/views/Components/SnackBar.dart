@@ -17,8 +17,8 @@ class SnackComponent
     show({String type = "info", dynamic message})
     {
         int color;
-        IconData icon;
         String sufix;
+        IconData icon;
 
         if(current != null)
             current.dismiss();
@@ -26,24 +26,24 @@ class SnackComponent
         switch(type)
         {
             case "info":
-                icon  = FontAwesomeIcons.exclamationCircle;
                 color = 0xff323232;
                 sufix = "";
+                icon  = FontAwesomeIcons.exclamationCircle;
             break;
             case "warning":
-                icon = FontAwesomeIcons.exclamationCircle;
                 color = 0xffffc100;
                 sufix = "Warning! ";
+                icon  = FontAwesomeIcons.exclamationCircle;
             break;
             case "danger":
-                icon = FontAwesomeIcons.exclamationCircle;
                 color = 0xffd32f2f;
                 sufix = "Error! ";
+                icon  = FontAwesomeIcons.exclamationCircle;
             break;
             case "success":
-                icon = FontAwesomeIcons.solidCheckCircle;
                 color = 0xff43a047;
                 sufix = "Success! ";
+                icon  = FontAwesomeIcons.solidCheckCircle;
             break;
 
         }

@@ -31,39 +31,50 @@ class _MainScreenState extends State<MainScreen>
     bool isFirstRun = true;
     bool internalError = false;
 
-    renderBooks(items)
+    List<Widget> renderBooks(items)
     {
-        return items.map<Widget>((dynamic item) =>
-            GestureDetector
+        List<Widget> list = [];
+
+        for(int i = 0; i < items.length; i++)
+        {
+            list.add
             (
-                child: BookComponent
+                GestureDetector
                 (
-                    title: item["title"],
-                    subtitle: item["subtitle"],
-                    thumbnail: item["thumbnail"],
-                    reviews: item["reviews"],
-                    rating: {
-                        "stars": item["rating"]["stars"], "total": item["rating"]["total"], "users": item["rating"]["users"]
+                    child: BookComponent
+                    (
+                        title: items[i]["title"],
+                        subtitle: items[i]["subtitle"],
+                        thumbnail: items[i]["thumbnail"],
+                        reviews: items[i]["reviews"],
+                        rating: {
+                            "stars": items[i]["rating"]["stars"], "total": items[i]["rating"]["total"], "users": items[i]["rating"]["users"]
+                        }
+
+                    ),
+
+                    onTap: ()
+                    {
+                        Navigator.of(context).push
+                        (
+                            MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
+                            (
+                                store: store,
+                                child: DetailsScreen(bookId: items[i]["id"])
+
+                            ))
+
+                        );
+
                     }
 
-                ),
+                )
 
-                onTap: ()
-                {
-                    Navigator.of(context).push
-                    (
-                        MaterialPageRoute(builder: (BuildContext context) => StoreProvider<AppState>
-                        (
-                            store: store,
-                            child: DetailsScreen(bookId: item["id"])
+            );
 
-                        ))
+        }
 
-                    );
-
-                }
-
-            ));
+        return list;
 
     }
 
@@ -269,7 +280,7 @@ class _MainScreenState extends State<MainScreen>
                                                         ?
                                                             Column
                                                             (
-                                                                children: renderBooks(state.books).toList()..add
+                                                                children: renderBooks(state.books)..add
                                                                 (
                                                                     Visibility
                                                                     (

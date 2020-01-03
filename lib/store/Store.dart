@@ -26,7 +26,8 @@ final store = Store<AppState>
         user: {},
         token: "",
         isLoadingSignIn: false,
-        isLoadingSignUp: false
+        isLoadingSignUp: false,
+        isLoadingSignOut: false
 
     ),
 

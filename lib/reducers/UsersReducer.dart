@@ -83,6 +83,16 @@ AppState userReducer(AppState state, dynamic action)
 
     }
 
+    if(action is ChangeIsLoadingSignOut)
+    {
+        return state.copyWith
+        (
+            isLoadingSignOut: action.isLoadingSignOut
+
+        );
+
+    }
+
     return state;
 
 }

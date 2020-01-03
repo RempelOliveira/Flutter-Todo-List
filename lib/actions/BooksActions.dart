@@ -2,11 +2,16 @@ import "dart:io";
 import "dart:convert";
 import "package:http/http.dart" as http;
 import "package:flutter_redux/flutter_redux.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/actions/UsersActions.dart";
 
 import "package:google_books_api/utils/UserAuthentication.dart";
+
+
+final String api =
+    DotEnv().env["API_URL"] + "/api/books";
 
 Future<Map<String, dynamic>> getBooks(context) async
 {
@@ -16,7 +21,7 @@ Future<Map<String, dynamic>> getBooks(context) async
     try
     {
         http.Response response = await http.get(
-            Uri.encodeFull("http://192.168.0.8:3002/api/books?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true, store.state.token) });
+            Uri.encodeFull("$api?tab=${store.state.tab}&category=${store.state.category}&skip=${store.state.skipBooks}"), headers: { HttpHeaders.authorizationHeader: await getAuthUser(true, store.state.token) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);

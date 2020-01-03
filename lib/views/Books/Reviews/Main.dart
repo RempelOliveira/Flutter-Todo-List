@@ -182,54 +182,65 @@ class _MainScreenState extends State<MainScreen>
 
     }
 
-    renderReviews(items)
+    List<Widget> renderReviews(items)
     {
-        return items.map<Widget>((dynamic item) =>
-            Container
+        List<Widget> list = [];
+
+        for(int i = 0; i < items.length; i++)
+        {
+            list.add
             (
-                margin: EdgeInsets.only(top: 6),
-                child: Column
+                Container
                 (
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>
-                    [
-                        Text(item["user"]["name"], style: TextStyle
-                        (
-                            color: Color(0xff292929),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500
-
-                        )),
-
-                        SmoothStarRating
-                        (
-                            rating: item["rating"].toDouble(),
-                            starCount: 5,
-                            size: 18,
-                            allowHalfRating: false,
-                            color: Color(0xffffaf2e),
-                            borderColor: Color(0xffffaf2e)
-
-                        ),
-
-                        Container
-                        (
-                            margin: EdgeInsets.only(top: 12),
-                            child: Text(item["review"], style: TextStyle
+                    margin: EdgeInsets.only(top: i == 0 ? 6 : 24),
+                    child: Column
+                    (
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>
+                        [
+                            Text(items[i]["user"]["name"], style: TextStyle
                             (
-                                color: Color(0xff929292),
-                                fontSize: 10,
-                                fontWeight: FontWeight.w100
+                                color: Color(0xff292929),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500
 
-                            ))
+                            )),
 
-                        )
+                            SmoothStarRating
+                            (
+                                rating: items[i]["rating"].toDouble(),
+                                starCount: 5,
+                                size: 18,
+                                allowHalfRating: false,
+                                color: Color(0xffffaf2e),
+                                borderColor: Color(0xffffaf2e)
 
-                    ]
+                            ),
+
+                            Container
+                            (
+                                margin: EdgeInsets.only(top: 12),
+                                child: Text(items[i]["review"], style: TextStyle
+                                (
+                                    color: Color(0xff929292),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w100
+
+                                ))
+
+                            )
+
+                        ]
+
+                    )
 
                 )
 
-            ));
+            );
+
+        }
+
+        return list;
 
     }
 
@@ -243,7 +254,7 @@ class _MainScreenState extends State<MainScreen>
             {
                 return Container
                 (
-                    margin: EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    margin: EdgeInsets.fromLTRB(24, 0, 24, 20),
                     child: Column
                     (
                         children: <Widget>
@@ -303,7 +314,7 @@ class _MainScreenState extends State<MainScreen>
                                                         decoration: InputDecoration
                                                         (
                                                             filled: true,
-                                                            fillColor: state.isLoadingSignIn ? Color(0xfff5f5f5) : Colors.white,
+                                                            fillColor: state.user.isEmpty ? Color(0xfff5f5f5) : Colors.white,
 
                                                             border: OutlineInputBorder
                                                             (
@@ -510,7 +521,7 @@ class _MainScreenState extends State<MainScreen>
                                                     Column
                                                     (
                                                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                        children: renderReviews(state.reviews).toList()..add
+                                                        children: renderReviews(state.reviews)..add
                                                         (
                                                             Visibility
                                                             (

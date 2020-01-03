@@ -1,12 +1,14 @@
 import "package:flutter/material.dart";
-import 'package:google_books_api/actions/UsersActions.dart';
-import 'package:google_books_api/store/Store.dart';
+
+import "package:google_books_api/store/Store.dart";
 
 import "package:google_books_api/views/Books/List/Main.dart";
 import "package:google_books_api/views/Books/List/Header.dart";
 import "package:google_books_api/views/Books/List/Categories.dart";
 
 import "package:google_books_api/views/Components/DrawerMenu.dart";
+
+import 'package:google_books_api/actions/UsersActions.dart';
 
 class ListScreen extends StatefulWidget
 {
@@ -60,7 +62,7 @@ class _ListScreenState extends State<ListScreen> with SingleTickerProviderStateM
     Widget build(BuildContext context)
     {
         containerAnimation = Tween(begin: 0.0, end: MediaQuery.of(context).size.width - 40).animate(
-                CurvedAnimation(parent: animationController, curve: Curves.easeInOut));
+            CurvedAnimation(parent: animationController, curve: Curves.easeInOut));
 
         return SafeArea
         (

@@ -1,14 +1,17 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_redux/flutter_redux.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/store/Store.dart";
 
 import "views/Books/List.dart";
 
-void main()
+Future main() async
 {
+    await DotEnv().load(".env");
+
     runApp(AnnotatedRegion<SystemUiOverlayStyle>
     (
         value: SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.white, statusBarBrightness: Brightness.dark),
@@ -24,8 +27,6 @@ void main()
                 child: ListScreen()
 
             )
-
-            //home: ListScreen()
 
         )
 

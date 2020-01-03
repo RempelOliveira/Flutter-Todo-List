@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:flutter/cupertino.dart";
+
 import "package:flutter_redux/flutter_redux.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 
@@ -9,9 +11,10 @@ import "package:google_books_api/actions/UsersActions.dart";
 import "package:google_books_api/utils/FormValidate.dart";
 
 import "package:google_books_api/views/Books/List.dart";
-import "package:google_books_api/views/Components/SnackBar.dart";
+import "package:google_books_api/views/Authentication/SignUp.dart";
 
-import "../SignUp.dart";
+import "package:google_books_api/views/Components/SnackBar.dart";
+import "package:google_books_api/views/Components/SpinnerIndicator.dart";
 
 class MainScreen extends StatefulWidget
 {
@@ -517,43 +520,29 @@ class _MainScreenState extends State<MainScreen>
 
                                 ),
 
-                                Container
+                                Stack
                                 (
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.only(top: 6),
-
-                                    child: RaisedButton
-                                    (
-                                        color: Color(0xff039be5),
-                                        disabledColor: Color(0xff039be5),
-                                        elevation: 0,
-                                        padding: EdgeInsets.all(12),
-
-                                        shape: RoundedRectangleBorder
+                                    children: <Widget>
+                                    [
+                                        Container
                                         (
-                                            borderRadius: BorderRadius.all(Radius.circular(4))
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(top: 6),
 
-                                        ),
+                                            child: RaisedButton
+                                            (
+                                                color: Color(0xff039be5),
+                                                disabledColor: Color(0xff039be5),
+                                                elevation: 0,
+                                                padding: EdgeInsets.all(12),
 
-                                        child: state.isLoadingSignIn
-                                            ?
-                                                Container
+                                                shape: RoundedRectangleBorder
                                                 (
-                                                    width: 14,
-                                                    height: 14,
-                                                    margin: EdgeInsets.zero,
+                                                    borderRadius: BorderRadius.all(Radius.circular(4))
 
-                                                    child: CircularProgressIndicator
-                                                    (
-                                                        strokeWidth: 1.5,
-                                                        valueColor: AlwaysStoppedAnimation(Colors.white)
+                                                ),
 
-                                                    )
-
-                                                )
-
-                                            :
-                                                Text("SIGN IN", style: TextStyle
+                                                child: Text(state.isLoadingSignIn ? "" : "SIGN IN", style: TextStyle
                                                 (
                                                     color: Colors.white,
                                                     fontSize: 12,
@@ -561,13 +550,31 @@ class _MainScreenState extends State<MainScreen>
 
                                                 )),
 
-                                        onPressed: state.isLoadingSignIn ? null : ()
-                                        {
-                                            handleSignIn();
+                                                onPressed: state.isLoadingSignIn ? null : ()
+                                                {
+                                                    handleSignIn();
 
-                                        }
+                                                }
 
-                                    )
+                                            )
+
+                                        ),
+
+                                        Visibility
+                                        (
+                                            visible: state.isLoadingSignIn,
+                                            child: Container
+                                            (
+                                                alignment: Alignment.center,
+                                                margin: EdgeInsets.only(top: 19.5),
+
+                                                child: SpinnerIndicator()
+
+                                            ),
+
+                                        )
+
+                                    ]
 
                                 ),
 

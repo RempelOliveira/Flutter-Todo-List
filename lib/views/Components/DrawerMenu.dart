@@ -7,6 +7,7 @@ import "package:google_books_api/actions/UsersActions.dart";
 
 import "package:google_books_api/views/Authentication/SignIn.dart";
 import "package:google_books_api/views/Authentication/SignUp.dart";
+import "package:google_books_api/views/Components/SpinnerIndicator.dart";
 import "package:google_books_api/views/PrivacyAndTerms/Details.dart";
 
 import "package:google_books_api/views/Components/SnackBar.dart";
@@ -25,7 +26,7 @@ class DrawerMenu extends StatefulWidget
 
 }
 
-class _DrawerMenuState extends State<DrawerMenu>
+class _DrawerMenuState extends State<DrawerMenu> with TickerProviderStateMixin
 {
     final ColorTween overlayAnimation =
         ColorTween(begin: Colors.transparent, end: Colors.black54);
@@ -34,6 +35,11 @@ class _DrawerMenuState extends State<DrawerMenu>
     {
         SnackComponent snackBar =
             SnackComponent(context);
+
+        store.dispatch(
+            ChangeIsLoadingSignOut(true)
+
+        );
 
         snackBar.show
         (
@@ -53,6 +59,11 @@ class _DrawerMenuState extends State<DrawerMenu>
                 );
 
             });
+
+            store.dispatch(
+                ChangeIsLoadingSignOut(false)
+
+            );
 
             widget.animationController.reverse();
 
@@ -341,33 +352,92 @@ class _DrawerMenuState extends State<DrawerMenu>
                                                             (
                                                                 children: <Widget>
                                                                 [
-                                                                    RaisedButton
+                                                                    Stack
                                                                     (
-                                                                        color: Color(0xff039be5),
-                                                                        elevation: 0,
-                                                                        padding: EdgeInsets.all(12),
+                                                                        children: <Widget>
+                                                                        [
+                                                                            Container
+                                                                            (
+                                                                                alignment: Alignment.center,
+                                                                                margin: EdgeInsets.only(top: 6),
 
-                                                                        shape: RoundedRectangleBorder
-                                                                        (
-                                                                            borderRadius: BorderRadius.all(Radius.circular(4))
+                                                                                child: RaisedButton
+                                                                                (
+                                                                                    color: Color(0xff039be5),
+                                                                                    elevation: 0,
+                                                                                    padding: EdgeInsets.all(12),
 
-                                                                        ),
+                                                                                    shape: RoundedRectangleBorder
+                                                                                    (
+                                                                                        borderRadius: BorderRadius.all(Radius.circular(4))
 
-                                                                        child: Text("SIGN OUT", style: TextStyle
-                                                                        (
-                                                                            color: Colors.white,
-                                                                            fontSize: 12,
-                                                                            fontWeight: FontWeight.w500
+                                                                                    ),
 
-                                                                        )),
+                                                                                    child: Text(state.isLoadingSignOut ? "" : "SIGN OUT", style: TextStyle
+                                                                                    (
+                                                                                        color: Colors.white,
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.w500
 
-                                                                        onPressed: ()
-                                                                        {
-                                                                            handleSignOutUser();
+                                                                                    )),
 
-                                                                        }
+                                                                                    onPressed: state.isLoadingSignOut ? null : ()
+                                                                                    {
+                                                                                        handleSignOutUser();
+
+                                                                                    }
+
+                                                                                )
+
+                                                                            ),
+
+                                                                            Visibility
+                                                                            (
+                                                                                visible: state.isLoadingSignOut,
+                                                                                child: Container
+                                                                                (
+                                                                                    alignment: Alignment.center,
+                                                                                    margin: EdgeInsets.only(top: 19.5),
+
+                                                                                    child: SpinnerIndicator()
+
+                                                                                ),
+
+                                                                            )
+
+                                                                        ]
 
                                                                     )
+
+                                                                    /*
+                                                                        RaisedButton
+                                                                        (
+                                                                            color: Color(0xff039be5),
+                                                                            elevation: 0,
+                                                                            padding: EdgeInsets.all(12),
+
+                                                                            shape: RoundedRectangleBorder
+                                                                            (
+                                                                                borderRadius: BorderRadius.all(Radius.circular(4))
+
+                                                                            ),
+
+                                                                            child: Text("SIGN OUT", style: TextStyle
+                                                                            (
+                                                                                color: Colors.white,
+                                                                                fontSize: 12,
+                                                                                fontWeight: FontWeight.w500
+
+                                                                            )),
+
+                                                                            onPressed: ()
+                                                                            {
+                                                                                handleSignOutUser();
+
+                                                                            }
+
+                                                                        )
+                                                                    */
 
                                                                 ]
 

@@ -2,9 +2,13 @@ import "dart:io";
 import "dart:convert";
 import "package:http/http.dart" as http;
 import "package:flutter_redux/flutter_redux.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/utils/UserAuthentication.dart";
+
+final String api =
+    DotEnv().env["API_URL"] + "/api/users";
 
 Future<Map<String, dynamic>> signUp(context, Map<String, dynamic> user) async
 {
@@ -14,7 +18,7 @@ Future<Map<String, dynamic>> signUp(context, Map<String, dynamic> user) async
     try
     {
         http.Response response = await http.post(
-            Uri.encodeFull("http://192.168.0.8:3002/api/users/sign-up"), body: { "name": user["name"], "email": user["email"], "password": setAuthPassword(user["password"]) });
+            Uri.encodeFull("$api/sign-up"), body: { "name": user["name"], "email": user["email"], "password": setAuthPassword(user["password"]) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
@@ -181,5 +185,12 @@ class ChangeIsLoadingSignUp
 {
     bool isLoadingSignUp;
     ChangeIsLoadingSignUp(this.isLoadingSignUp);
+
+}
+
+class ChangeIsLoadingSignOut
+{
+    bool isLoadingSignOut;
+    ChangeIsLoadingSignOut(this.isLoadingSignOut);
 
 }

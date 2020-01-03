@@ -3,12 +3,16 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 import "package:redux/redux.dart";
 import "package:flutter_redux/flutter_redux.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 import "package:redux_thunk/redux_thunk.dart";
 import "package:google_books_api/states/AppState.dart";
 
 import "package:google_books_api/utils/UserAuthentication.dart";
 import "package:google_books_api/actions/UsersActions.dart";
+
+final String api =
+    DotEnv().env["API_URL"] + "/api/books";
 
 Future<Map<String, dynamic>> createReview(context, Map<String, dynamic> review, [bool all = false]) async
 {
@@ -18,7 +22,7 @@ Future<Map<String, dynamic>> createReview(context, Map<String, dynamic> review, 
     try
     {
         http.Response response = await http.post(
-            Uri.encodeFull("http://192.168.0.8:3002/api/books/${store.state.book["id"]}/reviews${all ? "?all=true" : ""}"), body: review, headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
+            Uri.encodeFull("$api/${store.state.book["id"]}/reviews${all ? "?all=true" : ""}"), body: review, headers: { HttpHeaders.authorizationHeader: await getAuthUser(true) });
 
         Map<String, dynamic> data =
             jsonDecode(response.body);
