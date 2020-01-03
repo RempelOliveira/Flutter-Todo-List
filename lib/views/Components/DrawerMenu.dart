@@ -364,6 +364,7 @@ class _DrawerMenuState extends State<DrawerMenu> with TickerProviderStateMixin
                                                                                 child: RaisedButton
                                                                                 (
                                                                                     color: Color(0xff039be5),
+                                                                                    disabledColor: Color(0xff039be5),
                                                                                     elevation: 0,
                                                                                     padding: EdgeInsets.all(12),
 
@@ -408,36 +409,6 @@ class _DrawerMenuState extends State<DrawerMenu> with TickerProviderStateMixin
                                                                         ]
 
                                                                     )
-
-                                                                    /*
-                                                                        RaisedButton
-                                                                        (
-                                                                            color: Color(0xff039be5),
-                                                                            elevation: 0,
-                                                                            padding: EdgeInsets.all(12),
-
-                                                                            shape: RoundedRectangleBorder
-                                                                            (
-                                                                                borderRadius: BorderRadius.all(Radius.circular(4))
-
-                                                                            ),
-
-                                                                            child: Text("SIGN OUT", style: TextStyle
-                                                                            (
-                                                                                color: Colors.white,
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.w500
-
-                                                                            )),
-
-                                                                            onPressed: ()
-                                                                            {
-                                                                                handleSignOutUser();
-
-                                                                            }
-
-                                                                        )
-                                                                    */
 
                                                                 ]
 

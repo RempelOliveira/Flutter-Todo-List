@@ -27,7 +27,8 @@ final store = Store<AppState>
         token: "",
         isLoadingSignIn: false,
         isLoadingSignUp: false,
-        isLoadingSignOut: false
+        isLoadingSignOut: false,
+        isLoadingReview: false
 
     ),
 

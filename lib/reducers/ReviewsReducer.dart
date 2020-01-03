@@ -44,6 +44,16 @@ AppState reviewsReducer(AppState state, dynamic action)
 
     }
 
+    if(action is ChangeIsLoadingReview)
+    {
+        return state.copyWith
+        (
+            isLoadingReview: action.isLoadingReview
+
+        );
+
+    }
+
     return state;
 
 }

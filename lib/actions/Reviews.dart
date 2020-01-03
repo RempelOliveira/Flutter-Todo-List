@@ -34,12 +34,10 @@ Future<Map<String, dynamic>> createReview(context, Map<String, dynamic> review, 
         }
         else
         {
-            /*
-                store.dispatch(
-                    UpdateReviews(data["book"])
+            store.dispatch(
+                UpdateBookReviews(data["reviews"]["total"], data["reviews"]["items"])
 
-                );
-            */
+            );
 
             store.dispatch(
                 UpdateUser(await setAuthUser(data["user"]["token"]))
@@ -176,5 +174,12 @@ class ChangeAllReviews
 {
     bool allReviews;
     ChangeAllReviews(this.allReviews);
+
+}
+
+class ChangeIsLoadingReview
+{
+    bool isLoadingReview;
+    ChangeIsLoadingReview(this.isLoadingReview);
 
 }

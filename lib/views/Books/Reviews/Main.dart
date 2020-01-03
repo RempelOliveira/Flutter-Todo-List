@@ -8,8 +8,10 @@ import "package:google_books_api/store/Store.dart";
 import "package:google_books_api/states/AppState.dart";
 import "package:google_books_api/utils/FormValidate.dart";
 
-import "package:google_books_api/views/Components/SnackBar.dart";
 import "package:google_books_api/views/Authentication/SignIn.dart";
+
+import "package:google_books_api/views/Components/SnackBar.dart";
+import "package:google_books_api/views/Components/SpinnerIndicator.dart";
 
 import "package:google_books_api/actions/Reviews.dart";
 
@@ -66,6 +68,11 @@ class _MainScreenState extends State<MainScreen>
 
         if(isValid.length == 0)
         {
+            store.dispatch(
+                ChangeIsLoadingReview(true)
+
+            );
+
             snackBar.show
             (
                 message: "Processing data! Please wait a few moments."
@@ -93,7 +100,8 @@ class _MainScreenState extends State<MainScreen>
 
                             );
 
-
+                            rating = 0;
+                            reviewController.clear();
 
                         }
                         else
@@ -149,12 +157,22 @@ class _MainScreenState extends State<MainScreen>
 
                     }
 
+                    store.dispatch(
+                        ChangeIsLoadingReview(false)
+
+                    );
+
                 }).catchError((error)
                 {
                     snackBar.show
                     (
                         type: "danger",
                         message: "An internal error occurred."
+
+                    );
+
+                    store.dispatch(
+                        ChangeIsLoadingReview(false)
 
                     );
 
@@ -297,7 +315,7 @@ class _MainScreenState extends State<MainScreen>
                                                     margin: EdgeInsets.only(top: 6, bottom: 6),
                                                     child: TextField
                                                     (
-                                                        enabled: state.user.isEmpty ? false : true,
+                                                        enabled: state.user.isEmpty || state.isLoadingReview ? false : true,
                                                         controller: reviewController,
 
                                                         minLines: 5,
@@ -314,7 +332,7 @@ class _MainScreenState extends State<MainScreen>
                                                         decoration: InputDecoration
                                                         (
                                                             filled: true,
-                                                            fillColor: state.user.isEmpty ? Color(0xfff5f5f5) : Colors.white,
+                                                            fillColor: state.user.isEmpty || state.isLoadingReview ? Color(0xfff5f5f5) : Colors.white,
 
                                                             border: OutlineInputBorder
                                                             (
@@ -462,27 +480,59 @@ class _MainScreenState extends State<MainScreen>
 
                                                     ),
 
-                                                    RaisedButton
+                                                    Stack
                                                     (
-                                                        elevation: 0,
-                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                                                        color: Color(0xff039be5),
-                                                        disabledColor: Color(0xfff5f5f5),
-                                                        padding: EdgeInsets.fromLTRB(22, 12, 20, 11),
+                                                        children: <Widget>
+                                                        [
+                                                            Container
+                                                            (
+                                                                alignment: Alignment.center,
+                                                                child: RaisedButton
+                                                                (
+                                                                    color: Color(0xff039be5),
+                                                                    disabledColor: Color(0xff039be5),
+                                                                    elevation: 0,
+                                                                    padding: EdgeInsets.fromLTRB(22, 12, 20, 11),
 
-                                                        child: Text("SUBMIT", style: TextStyle
-                                                        (
-                                                            color: Colors.white,
-                                                            fontSize: 12,
-                                                            fontWeight: FontWeight.w500
+                                                                    shape: RoundedRectangleBorder
+                                                                    (
+                                                                        borderRadius: BorderRadius.all(Radius.circular(4))
 
-                                                        )),
+                                                                    ),
 
-                                                        onPressed: state.user.isEmpty ? null : ()
-                                                        {
-                                                            handleCreateReview();
+                                                                    child: Text(state.isLoadingSignOut || state.isLoadingReview ? "" : "SUBMIT", style: TextStyle
+                                                                    (
+                                                                        color: Colors.white,
+                                                                        fontSize: 12,
+                                                                        fontWeight: FontWeight.w500
 
-                                                        }
+                                                                    )),
+
+                                                                    onPressed: state.user.isEmpty || state.isLoadingReview ? null : ()
+                                                                    {
+                                                                        handleCreateReview();
+
+                                                                    }
+
+                                                                )
+
+                                                            ),
+
+                                                            Visibility
+                                                            (
+                                                                visible: state.isLoadingReview,
+                                                                child: Container
+                                                                (
+                                                                    alignment: Alignment.center,
+                                                                    margin: EdgeInsets.only(top: 13.5, left: 33),
+
+                                                                    child: SpinnerIndicator()
+
+                                                                ),
+
+                                                            )
+
+                                                        ]
 
                                                     )
 
