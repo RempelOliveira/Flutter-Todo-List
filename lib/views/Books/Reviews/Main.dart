@@ -576,51 +576,67 @@ class _MainScreenState extends State<MainScreen>
                                                             Visibility
                                                             (
                                                                 visible: state.reviews.length < state.reviewsTotal,
-                                                                child: Container
+                                                                child: Stack
                                                                 (
-                                                                    margin: EdgeInsets.only(top: 24),
-                                                                    child: RaisedButton
-                                                                    (
-                                                                        elevation: 0,
-                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                                                                        color: Color(0xff039be5),
-                                                                        disabledColor: Color(0xfff5f5f5),
-                                                                        padding: EdgeInsets.fromLTRB(22, 12, 20, 11),
+                                                                    children: <Widget>
+                                                                    [
+                                                                        Container
+                                                                        (
+                                                                            alignment: Alignment.center,
+                                                                            margin: EdgeInsets.only(top: 24),
 
-                                                                        child: state.isLoadingAllReviews
-                                                                            ?
-                                                                                Container
+                                                                            child: ButtonTheme
+                                                                            (
+                                                                                minWidth: double.infinity,
+                                                                                child: RaisedButton
                                                                                 (
-                                                                                    width: 14,
-                                                                                    height: 14,
-                                                                                    child: CircularProgressIndicator
+                                                                                    color: Color(0xff039be5),
+                                                                                    disabledColor: Color(0xff039be5),
+                                                                                    elevation: 0,
+                                                                                    padding: EdgeInsets.fromLTRB(22, 12, 20, 11),
+
+                                                                                    shape: RoundedRectangleBorder
                                                                                     (
-                                                                                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                                                                                        strokeWidth: 2
+                                                                                        borderRadius: BorderRadius.all(Radius.circular(4))
 
-                                                                                    )
+                                                                                    ),
+
+                                                                                    child: Text(state.isLoadingAllReviews ? "" : "SHOW ALL COMMENTS", style: TextStyle
+                                                                                    (
+                                                                                        color: Colors.white,
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.w500
+
+                                                                                    )),
+
+                                                                                    onPressed: state.isLoadingAllReviews ? null : ()
+                                                                                    {
+                                                                                        StoreProvider.of<AppState>(context)
+                                                                                            .dispatch(getReviews);
+
+                                                                                    }
 
                                                                                 )
 
-                                                                            :
-                                                                                Text("SHOW ALL COMMENTS", style: TextStyle
-                                                                                (
-                                                                                    color: Colors.white,
-                                                                                    fontSize: 12,
-                                                                                    fontWeight: FontWeight.w500
-
-                                                                                )
+                                                                            )
 
                                                                         ),
 
-                                                                        onPressed: ()
-                                                                        {
-                                                                            StoreProvider.of<AppState>(context)
-                                                                                .dispatch(getReviews);
+                                                                        Visibility
+                                                                        (
+                                                                            visible: state.isLoadingAllReviews,
+                                                                            child: Container
+                                                                            (
+                                                                                alignment: Alignment.center,
+                                                                                margin: EdgeInsets.only(top: 37),
 
-                                                                        }
+                                                                                child: SpinnerIndicator()
 
-                                                                    )
+                                                                            ),
+
+                                                                        )
+
+                                                                    ]
 
                                                                 )
 

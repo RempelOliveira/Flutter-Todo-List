@@ -4,6 +4,13 @@ import "package:flutter/widgets.dart";
 
 class SpinnerIndicator extends StatefulWidget
 {
+    final bool animating;
+    final double radius;
+    final Color color;
+
+    SpinnerIndicator({
+        Key key, this.animating = true, this.radius = 11, this.color = const Color(0xffffffff) }) : assert(animating != null), assert(radius != null), assert(radius > 0), super(key: key);
+
     @override
     _SpinnerIndicatorState createState() => _SpinnerIndicatorState();
 
@@ -40,7 +47,13 @@ class _SpinnerIndicatorState extends State<SpinnerIndicator> with TickerProvider
             child: ScaleTransition
             (
                 scale: scaleAnimation,
-                child: _Indicator()
+                child: _Indicator
+                (
+                    color: widget.color,
+                    radius: widget.radius,
+                    animating: widget.animating
+
+                )
 
             )
 
@@ -57,7 +70,7 @@ class _Indicator extends StatefulWidget
     final Color color;
 
     const _Indicator({
-        Key key, this.animating = true, this.radius = 11, this.color = const Color(0xffffffff) }) : assert(animating != null), assert(radius != null), assert(radius > 0), super(key: key);
+        Key key, this.animating, this.radius, this.color });
 
     @override
     _IndicatorState createState() => _IndicatorState();
